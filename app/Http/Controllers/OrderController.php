@@ -53,29 +53,43 @@ class OrderController extends Controller
         each item in request has the following layout:
         key   => value   
         product_id    => [count, price, stock, description]
+        'sum'         => sum ( float )               
         */
-        
+        //local variable, declared out here to avoid scope problems
+        $sum = 0.00;
         $itemlist = $request->all();                
         foreach( $itemlist as $key => $value ){
-            
-            $order_product = new OrderProduct([
-                'order_id'      => $order_id, 
-                'product_id'    => $key,
-                'amount'        => $value[0]             
-            ]);
-            $order_product->save();
-                        
-            
-            //decrease the stock in the products table    
-            $old_stock = intval($value[2]);
-            $number_sold = intval($value[0]);
-            $new_stock = ($old_stock - $number_sold);
-            Product::where('id', intval($key))->update([
-                'stock' => $new_stock ]
-            );
-        }        
+            if($key != 'sum'){
+
+                $order_product = new OrderProduct([
+                    'order_id'      => $order_id, 
+                    'product_id'    => $key,
+                    'amount'        => $value[0]             
+                ]);
+                $order_product->save();                           
+                
+                //decrease the stock in the products table    
+                $old_stock = intval($value[2]);
+                $number_sold = intval($value[0]);
+                $new_stock = ($old_stock - $number_sold);
+                Product::where('id', intval($key))->update([
+                    'stock' => $new_stock ]
+                );
+            }
+            if($key == 'sum'){$sum = $value;}
+        }
         
-        
+        //create an invoice
+        $invoice = new Invoice([
+            'created_at'        => now(),
+            'customer_id'       => Auth::user()->id,
+            'order_id'          => $order_id,
+            'sum'               => $sum,
+            'text'              => "This is your beautiful invoice",
+            'created_by'        => 0//machine: any other user, e.g. admin, has an id > 0
+        ]);
+        $invoice->save();
+
     }
 
     /**
