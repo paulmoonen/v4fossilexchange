@@ -5598,7 +5598,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     makePurchase: function makePurchase() {
       //add sum to shoppinglistdata
-      this.shoppinglist['sum'] = this.sum;
+      var localsum = this.sum;
+      this.shoppinglist['sum'] = localsum;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         method: "post",
         url: "/order/store",

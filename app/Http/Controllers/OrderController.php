@@ -53,6 +53,7 @@ class OrderController extends Controller
         each item in request has the following layout:
         key   => value   
         product_id    => [count, price, stock, description]
+        'sum'         => sum ( float )               
         */
         //local variable, declared out here to avoid scope problems
         $sum = 0.00;

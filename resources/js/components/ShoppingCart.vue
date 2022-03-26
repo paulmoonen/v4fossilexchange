@@ -192,7 +192,8 @@ export default {
         makePurchase() {
             
             //add sum to shoppinglistdata
-            this.shoppinglist['sum'] = this.sum;
+            let localsum = this.sum;
+            this.shoppinglist['sum'] = localsum;
 
             axios({
                 method: "post",
