@@ -40,6 +40,41 @@
                         </div>
 
                         <div class="row mb-3">
+                            <label for="street" class="col-md-4 col-form-label text-md-end">Street</label>
+                            <div class="col-md-6">
+                                <input id="street" type="text" class="form-control" name="street" required>                                
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="housenumber" class="col-md-4 col-form-label text-md-end">House number</label>
+                            <div class="col-md-6">
+                                <input id="housenumber" type="text" class="form-control" name="housenumber" required>                                
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="postal_code" class="col-md-4 col-form-label text-md-end">Postal code</label>
+                            <div class="col-md-6">
+                                <input id="postal_code" type="text" class="form-control" name="postal_code" required>                                
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="city" class="col-md-4 col-form-label text-md-end">City</label>
+                            <div class="col-md-6">
+                                <input id="city" type="text" class="form-control" name="city" required>                                
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="country" class="col-md-4 col-form-label text-md-end">Country</label>
+                            <div class="col-md-6">
+                                <input id="country" type="text" class="form-control" name="country" required>                                
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
