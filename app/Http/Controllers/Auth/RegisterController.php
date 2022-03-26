@@ -65,9 +65,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name'          => $data['name'],
+            'email'         => $data['email'],
+            'password'      => Hash::make($data['password']),
+            //additions for the v4fossilexchange webshop
+            'street'        => $data['street'],
+            'housenumber'   => $data['housenumber'],
+            'postal_code'   => $data['postal_code'],
+            'city'          => $data['city'],
+            'country'       => $data['country'],
+            'role'          => 2, //customer, self registered
+            'created_by'    => 0
         ]);
     }
 }

@@ -11,10 +11,10 @@
             v-for="(product_data, product_id) in shoppinglist"
             :key="product_id"
         >
-            <!-- count -->
-            <button @click="increase( product_id )"><b>+</b></button>
+            <!-- count: method parameters id and price -->
+            <button @click="increase( product_id, product_data[1] )"><b>+</b></button>
                 {{ product_data[0] }}
-            <button @click="decrease( product_id )"><b>-</b></button> 
+            <button @click="decrease( product_id, product_data[1] )"><b>-</b></button> 
             
             <!-- description -->
             {{ product_data[3] }}
@@ -118,7 +118,7 @@ export default {
             this.readSessionStorage();
         },
 
-        increase(product_id) {
+        increase(product_id, price) {
             //retrieve data from sessionstorage
             let JsonShoppingList = JSON.parse(
                     sessionStorage.getItem("shoppingList"))
@@ -132,14 +132,18 @@ export default {
                 thisproduct[0] = count; //updated count
                 JsonShoppingList[product_id] = thisproduct;
                 sessionStorage.setItem( "shoppingList", JSON.stringify(JsonShoppingList));  
-                this.eventbus.$emit('stockdecrease', product_id);             
-            }           
+                this.eventbus.$emit('stockdecrease', product_id); 
+                
+                let sum = parseFloat(sessionStorage.getItem("sum"));
+                sum = sum + price;
+                sessionStorage.setItem("sum", sum);
+            }               
 
             //update displayed data
             this.readSessionStorage(); 
         },
         
-        decrease(product_id) {
+        decrease(product_id, price) {
             //retrieve data from sessionstorage
             let JsonShoppingList = JSON.parse(
                     sessionStorage.getItem("shoppingList"))
@@ -152,8 +156,12 @@ export default {
                 thisproduct[0] = count; //updated count
                 JsonShoppingList[product_id] = thisproduct;
                 sessionStorage.setItem( "shoppingList", JSON.stringify(JsonShoppingList));  
-                this.eventbus.$emit('stockincrease', product_id);             
-            }            
+                this.eventbus.$emit('stockincrease', product_id);  
+                
+                let sum = parseFloat(sessionStorage.getItem("sum"));
+                sum = sum - price;
+                sessionStorage.setItem("sum", sum);
+            }               
 
             //update displayed data
             this.readSessionStorage();

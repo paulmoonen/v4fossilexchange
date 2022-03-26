@@ -80,12 +80,31 @@ class OrderController extends Controller
         }
         
         //create an invoice
+        //sum = $sum
+        $username       = Auth::user()->name;
+        $street         = Auth::user()->street;
+        $housenumber    = Auth::user()->housenumber;
+        $postal_code    = Auth::user()->postal_code;
+        $city           = Auth::user()->city;
+        $country        = Auth::user()->country;
+        $date           = today();
+        
         $invoice = new Invoice([
             'created_at'        => now(),
             'customer_id'       => Auth::user()->id,
             'order_id'          => $order_id,
             'sum'               => $sum,
-            'text'              => "This is your beautiful invoice",
+            'text'              => "Dear $username.\n
+                                    This is your invoice for purchase with purchase number $order_id 
+                                    on $date.\n                                   
+                                    Please transfer a grand total of $sum to our bank account.\n
+                                    Your shipping data:\n
+                                    $username\n
+                                    $street $housenumber\n
+                                    $postal_code $city\n
+                                    $country\n
+                                    Thank you for shopping at FossilExchange.
+                                    ",
             'created_by'        => 0//machine: any other user, e.g. admin, has an id > 0
         ]);
         $invoice->save();

@@ -5530,7 +5530,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.readSessionStorage();
     },
-    increase: function increase(product_id) {
+    increase: function increase(product_id, price) {
       //retrieve data from sessionstorage
       var JsonShoppingList = JSON.parse(sessionStorage.getItem("shoppingList"));
       var thisproduct = JsonShoppingList[product_id];
@@ -5545,12 +5545,15 @@ __webpack_require__.r(__webpack_exports__);
         JsonShoppingList[product_id] = thisproduct;
         sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
         this.eventbus.$emit('stockdecrease', product_id);
+        var sum = parseFloat(sessionStorage.getItem("sum"));
+        sum = sum + price;
+        sessionStorage.setItem("sum", sum);
       } //update displayed data
 
 
       this.readSessionStorage();
     },
-    decrease: function decrease(product_id) {
+    decrease: function decrease(product_id, price) {
       //retrieve data from sessionstorage
       var JsonShoppingList = JSON.parse(sessionStorage.getItem("shoppingList"));
       var thisproduct = JsonShoppingList[product_id];
@@ -5564,6 +5567,9 @@ __webpack_require__.r(__webpack_exports__);
         JsonShoppingList[product_id] = thisproduct;
         sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
         this.eventbus.$emit('stockincrease', product_id);
+        var sum = parseFloat(sessionStorage.getItem("sum"));
+        sum = sum - price;
+        sessionStorage.setItem("sum", sum);
       } //update displayed data
 
 
@@ -29221,7 +29227,7 @@ var render = function () {
             {
               on: {
                 click: function ($event) {
-                  return _vm.increase(product_id)
+                  return _vm.increase(product_id, product_data[1])
                 },
               },
             },
@@ -29233,7 +29239,7 @@ var render = function () {
             {
               on: {
                 click: function ($event) {
-                  return _vm.decrease(product_id)
+                  return _vm.decrease(product_id, product_data[1])
                 },
               },
             },
