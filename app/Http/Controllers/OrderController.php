@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\OrderProduct;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Invoice;
+
+class OrderController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {   
+        
+        $order = new Order([
+            'user_id'   => Auth::user()->id,
+            'date'      => now()
+        ]);
+        $order->save();
+        $order_id = $order->id;         
+
+        /*
+        loop through data from $request
+        save order-product combinations
+        each item in request has the following layout:
+        key   => value   
+        product_id    => [count, price, stock, description]
+        */
+        
+        $itemlist = $request->all();                
+        foreach( $itemlist as $key => $value ){
+            
+            $order_product = new OrderProduct([
+                'order_id'      => $order_id, 
+                'product_id'    => $key,
+                'amount'        => $value[0]             
+            ]);
+            $order_product->save();
+                        
+            
+            //decrease the stock in the products table    
+            $old_stock = intval($value[2]);
+            $number_sold = intval($value[0]);
+            $new_stock = ($old_stock - $number_sold);
+            Product::where('id', intval($key))->update([
+                'stock' => $new_stock ]
+            );
+        }        
+        
+        
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
