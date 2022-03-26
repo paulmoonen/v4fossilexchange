@@ -5597,6 +5597,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     makePurchase: function makePurchase() {
+      //add sum to shoppinglistdata
+      this.shoppinglist['sum'] = this.sum;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         method: "post",
         url: "/order/store",

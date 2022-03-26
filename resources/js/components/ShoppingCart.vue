@@ -190,7 +190,10 @@ export default {
         },
 
         makePurchase() {
-                     
+            
+            //add sum to shoppinglistdata
+            this.shoppinglist['sum'] = this.sum;
+
             axios({
                 method: "post",
                 url: "/order/store",
