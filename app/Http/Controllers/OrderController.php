@@ -108,7 +108,6 @@ class OrderController extends Controller
             'created_by'        => 0//machine: any other user, e.g. admin, has an id > 0
         ]);
         $invoice->save();
-
     }
 
     /**
