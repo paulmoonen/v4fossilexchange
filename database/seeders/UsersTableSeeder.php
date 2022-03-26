@@ -27,6 +27,11 @@ class UsersTableSeeder extends Seeder
             'name'          => 'Bob',
             'email'         => 'bob@fossilexchange.nl',
             'password'      => bcrypt('mypassword'),
+            'street'        => 'Klapbrugweg',
+            'housenumber'   => '23-a',
+            'postal_code'   => '1234AB',
+            'city'          => 'Roelofarendsveen',
+            'country'       => 'Nederland',
             'role'          => 2, //registered customer
             'created_by'    => 1,
             'created_at'    => now()
@@ -36,6 +41,11 @@ class UsersTableSeeder extends Seeder
             'name'          => 'Ada',
             'email'         => 'ada@fossilexchange.nl',
             'password'      => bcrypt('mypassword'),
+            'street'        => 'Devon Street',
+            'housenumber'   => '22 bis',
+            'postal_code'   => '1234AB',
+            'city'          => 'Dublin',
+            'country'       => 'Ireland',
             'role'          => 2, //registered customer
             'created_by'    => 1,
             'created_at'    => now()
