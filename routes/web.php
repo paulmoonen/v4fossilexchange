@@ -2,11 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/laravel', function () {
-    return view('welcome');
-});
-
-
 Auth::routes();
 
 Route::get('/',                     'HomeController@index', 'home.index');
