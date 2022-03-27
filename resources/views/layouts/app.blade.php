@@ -32,8 +32,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @if(auth()->guest())
                     <p>You are currently not logged id</p>
-                    <a href="/login">Log in</a>
-                    <a href="/register">register</a>
                     @endif
 
                     @if(auth()->check() )
@@ -45,20 +43,9 @@
 
                         <!-- links for admin users -->
                         @if(Auth::user()->role == 1)
-                        <!-- user is admin -->
                             <h2>welcome, admin {{Auth::user()->name}}</h2>
                             <a href="/admin">Admin work main page</a>
-                        @endif
-
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                                <button type="submit">log out</button>
-                            </form>
+                        @endif                        
 
                     @endif
 

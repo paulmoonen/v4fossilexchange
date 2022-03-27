@@ -15,5 +15,6 @@ class Product extends Model
                             'stock',
                             'originsite',
                             'picture',
-                            'created_by'];
+                            'created_by',
+                            'modified_by'];
 }

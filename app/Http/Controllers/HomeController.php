@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -14,17 +14,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //friendly greet a logged in user 
-        $username = null;
-        $role = NULL;
-        if(auth()->check()){
-            $username = Auth::user()->name;
-            $role = Auth::user()->role;
-            
-        }
         
+        $categories = Category::all();        
         return view('home', [
-            'role'              => $role                    
+            'categories' => $categories,               
         ]);
     }
 
