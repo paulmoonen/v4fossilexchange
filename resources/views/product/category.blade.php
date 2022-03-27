@@ -17,7 +17,7 @@
     </div>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-1">
 
             <shoppingcart>
                 {{ csrf_field() }}
@@ -25,7 +25,7 @@
             
         </div>
         
-        <div class="col-8">
+        <div class="col">
 
             <div class="row">
                 <productcard
