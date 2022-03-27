@@ -5534,7 +5534,8 @@ __webpack_require__.r(__webpack_exports__);
     makePurchase: function makePurchase() {
       //add sum to shoppinglistdata
       var localsum = this.sum;
-      this.shoppinglist['sum'] = localsum;
+      this.shoppinglist['sum'] = localsum; //check if customer is logged in, before continuing with axios call
+
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         method: "post",
         url: "/order/store",
