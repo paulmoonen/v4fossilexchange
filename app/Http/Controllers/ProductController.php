@@ -119,7 +119,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->role === 2){
+        if(Auth::user()->role === 1 ){
             $product = Product::find($id); //id concatenated in url
             $product->name          = $request->name;
             $product->stock         = $request->stock;

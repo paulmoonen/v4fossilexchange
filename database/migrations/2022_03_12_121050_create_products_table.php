@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('picture')->nullable();
             $table->timestamps();
             $table->tinyInteger('created_by');
-            $table->tinyInteger('modified_by');
+            $table->tinyInteger('modified_by')->nullable();
             $table->softDeletes();
         });
     }

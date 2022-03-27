@@ -1,52 +1,56 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Create a new product</h1>
-<a href="/admin">admin home</a>
+<div class="admin admin_create row">
+    <div class="col-2"></div>
+    <div class="col-8 form">
+        <h1>Create a new product</h1>
 
-<form action="/admin/product/store" method="post">
-    <!-- csrf token-->
-    <?php echo csrf_field(); ?>
+        <form action="/admin/product/store" method="post">
+            <!-- csrf token-->
+            <?php echo csrf_field(); ?>
 
-    <label for="origin">Select an origin site</label>
-    <select name="originsite" id="origin">
-        <?php foreach ($originsites as $originsite) : ?>
-            <option value="{{$originsite->id}}">{{$originsite->name}}</option>
-        <?php endforeach ?>
+            <label for="origin">Select an origin site</label><br>
+            <select name="originsite" id="origin">
+                <?php foreach ($originsites as $originsite) : ?>
+                    <option value="{{$originsite->id}}">{{$originsite->name}}</option>
+                <?php endforeach ?>
+            </select><br><br>
+            
+            <p>Select all appropriate categories</p>
+            <ul>
+                <?php foreach ($categories as $category) : ?>
+                    <input type="checkbox" name="categorylist[]" value="{{ $category->id }}">
+                    {{ $category->name }}
+                    <br>
+                <?php endforeach ?>
+            </ul>
 
-    </select>
-
-    <p>Select all appropriate categories</p>
-    <ul>
-        <?php foreach ($categories as $category) : ?>
-            <input type="checkbox" name="categorylist[]" value="{{ $category->id }}">
-            {{ $category->name }}
+            <input type="number" name="price" id="price" step="0.01" min="0.01" value="0.01">
+            <label for="price">Fill in the price</label>
             <br>
-        <?php endforeach ?>
-    </ul>
 
-    <label for="price">Fill in the price</label>
-    <input type="number" name="price" id="price" step="0.01" min="0.01" value="0.01">
-    <br>
+            <input type="number" name="stock" id="stock" step="1" min="0" value="0">
+            <label for="stock">Set the initial stock</label>
+            <br>
 
-    <label for="stock">Set the stock</label>
-    <input type="number" name="stock" id="stock" step="1" min="0" value="0">
-    <br>
+            <input type="textfield" name="description" id="description" cols="30" rows="10"></input>
+            <label for="description">Description</label>
+            <br>
 
-    <label for="description">Description</label>
-    <input type="textfield" name="description" id="description" cols="30" rows="10"></input>
-    <br>
+            <input type="text" name="picture" id="picturename"></input>
+            <label for="picturename">Picture name</label>
+            <br>
 
-    <label for="picturename">Picture name</label>
-    <input type="text" name="picture" id="picturename" ></input>
-    <br>
+            <input type="text" name="name" id="name"></input>
+            <label for="name">Product name</label>
+            <br>
 
-    <label for="name">Product name</label>
-    <input type="text" name="name" id="name" ></input>
-    <br>
-                    
-    <input type="submit" value="Submit">    
+            <input type="submit" value="Submit">
 
-</form>
-
+        </form>
+    </div>
+</div>
+<div class="col-2"></div>
+</div>
 @endsection
