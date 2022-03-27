@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,6 +15,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(Auth::check() && Auth::user()->role == 1){
+            return redirect('/admin'); //admin has a different homepage 
+        }
         
         $categories = Category::all();        
         return view('home', [

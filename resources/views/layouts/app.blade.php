@@ -23,7 +23,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm header">
+        <nav class="navbar navbar-expand-md header">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -43,7 +43,6 @@
 
                         <!-- links for admin users -->
                         @if(Auth::user()->role == 1)
-                            <h2>welcome, admin {{Auth::user()->name}}</h2>
                             <a href="/admin">Admin work main page</a>
                         @endif                        
 

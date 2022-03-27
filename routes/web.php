@@ -7,7 +7,6 @@ Auth::routes();
 Route::get('/',                     'HomeController@index', 'home.index');
 Route::get('/home',                 'HomeController@index', 'home.named');
 
-Route::get('/category',             'CategoryController@index', 'category.index');
 Route::get('/category/{id}',        'CategoryController@show', 'category.selection');
 
 //product admin routes
