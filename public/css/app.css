@@ -11287,17 +11287,23 @@ textarea.form-control-lg {
   }
 }
 .header {
-  background-color: lightgrey;
-  padding: 1rem;
-  margin: 1rem;
-  color: darkorange;
+  background-color: lightseagreen;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  color: black;
   border-radius: 0.3rem;
 }
 
-.footer {
-  color: orange;
-  background-color: black;
-  padding: 1rem;
-  margin: 1rem;
+footer {
+  color: black;
+  background-color: lightseagreen;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.3rem;
+}
+
+.categorieslist {
+  background-color: orange;
+  padding: 0.5rem;
   border-radius: 0.3rem;
 }

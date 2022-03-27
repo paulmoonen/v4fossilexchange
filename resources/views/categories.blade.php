@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container">
     <div class="row">
         <div class="categories col-6">
@@ -22,6 +23,7 @@
             <img src="/pictures/krijtrotsen.jpg" alt="white cliffs of le Treport" class="img-fluid">
         </div>
     </div>
+
 
 </div>
 
