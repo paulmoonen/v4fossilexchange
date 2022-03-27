@@ -11307,7 +11307,6 @@ textarea.form-control-lg {
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
-  width: 100vw;
 }
 
 .productcardfield {
@@ -11343,4 +11342,14 @@ input {
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
+}
+
+#app {
+  background-color: lightseagreen;
+}
+
+.categories {
+  padding: 1rem;
+  border-radius: 0.3rem;
+  background-color: aquamarine;
 }
