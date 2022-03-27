@@ -31,68 +31,45 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @if(auth()->guest())
-                    <p>You are currently not logged id</p>
+                    <p>You are currently not logged in</p>
+                    <a href="/login">log in</a>
+                    <a href="/register">register</a>
                     @endif
 
                     @if(auth()->check() )
-                        <!-- links for client users-->
-                        @if(Auth::user()->role == 2)
-                            <p>welcome back {{Auth::user()->name}}.</p>                          
-                    
-                        @endif
-
-                        <!-- links for admin users -->
-                        @if(Auth::user()->role == 1)
-                            <a href="/admin">Admin work main page</a>
-                        @endif                        
+                    <!-- links for client users-->
+                    @if(Auth::user()->role == 2)
+                    <p>welcome back {{Auth::user()->name}}.</p>
 
                     @endif
 
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ms-auto">
-                    <!-- Authentication Links -->
-                    @guest
-                    @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
+                    <!-- links for admin users -->
+                    @if(Auth::user()->role == 1)
+                    <a href="/admin">Admin work main page</a>
                     @endif
 
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
+                    <a href="/logout" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                        log out
+                    </a>
+
+                    <form id="logout-form" action="/logout" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
                     @endif
-                    @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
 
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                </ul>
+                </div>
             </div>
-    </div>
-    </nav>
+        </nav>
 
+        <main class="py-4">
+            @yield('content')
+        </main>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
-    <footer class="footer">
-        <h2>Legal notices</h2>
-    </footer>
+        <footer class="footer">
+            <h2>Legal notices</h2>
+        </footer>
     </div>
 </body>
 
