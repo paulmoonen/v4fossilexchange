@@ -11290,13 +11290,56 @@ textarea.form-control-lg {
   background-color: lightgrey;
   padding: 1rem;
   margin: 1rem;
-  color: darkorange;
+  color: black;
   border-radius: 0.3rem;
 }
 
 .footer {
-  color: orange;
-  background-color: black;
+  color: black;
+  background-color: lightgray;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+
+.titlebar {
+  background-color: orange;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+  width: 100vw;
+}
+
+.productcardfield {
+  scroll-behavior: auto;
+}
+
+.adminmenu {
+  background-color: orange;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+
+input {
+  margin: 0.3rem;
+}
+
+.form {
+  background-color: aquamarine;
+  padding: 1rem;
+  border-radius: 0.3rem;
+}
+
+.product_edit {
+  background-color: aquamarine;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+
+.admin_productselect > .col-8 {
+  background-color: burlywood;
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
