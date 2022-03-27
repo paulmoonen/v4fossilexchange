@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -47,7 +48,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find( $id );  
+        $category   = Category::find( $id ); 
+        //$logged_in  = Auth::check(); 
                         
         $products = DB::table('products')
             ->join('product_category', 'product_category.product_id', '=', 'products.id')  
@@ -62,7 +64,7 @@ class CategoryController extends Controller
             
         return view('product/category', [
             'products' => $products,
-            'category' => $category 
+            'category' => $category,             
         ]);
     }
 

@@ -36,6 +36,7 @@ export default {
 
     props: {
         csrf_token: String,
+        
     },
 
     /*
@@ -202,6 +203,8 @@ export default {
             //add sum to shoppinglistdata
             let localsum = this.sum;
             this.shoppinglist['sum'] = localsum;
+
+            //check if customer is logged in, before continuing with axios call
 
             axios({
                 method: "post",

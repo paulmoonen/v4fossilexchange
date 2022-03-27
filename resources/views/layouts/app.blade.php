@@ -23,33 +23,38 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md header">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+        <nav class="row header">
+
+            <div class="col-2">
+                <a class="navbar-brand" href="/">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+            </div>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    @if(auth()->guest())
+            <div class="col-8">
+                @if(auth()->guest())
                     <p>You are currently not logged in</p>
                     <a href="/login">log in</a>
+                    <br>
                     <a href="/register">register</a>
-                    @endif
+                    <br>
+                @endif
 
-                    @if(auth()->check() )
-                    <!-- links for client users-->
+                @if(auth()->check() )<!-- either an admin or a customer is logged in -->
+
                     @if(Auth::user()->role == 2)
                     <p>welcome back {{Auth::user()->name}}.</p>
-
                     @endif
 
                     <!-- links for admin users -->
                     @if(Auth::user()->role == 1)
-                    <a href="/admin">Admin work main page</a>
+                        <a href="/admin">Admin work main page</a>
+                        <br>
                     @endif
 
+                    <!-- log out requires a proper form element with csrf token-->
                     <a href="/logout" onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                                    document.getElementById('logout-form').submit();">
                         log out
                     </a>
 
@@ -57,10 +62,11 @@
                         @csrf
                     </form>
 
-                    @endif
+                @endif
 
-                </div>
             </div>
+            <div class="col-2"></div>
+            
         </nav>
 
         <main class="py-4">
