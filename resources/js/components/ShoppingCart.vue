@@ -12,13 +12,16 @@
             :key="product_id"
         >
             <!-- count: method parameters id and price -->
-            <button @click="increase( product_id, product_data[1] )"><b>+</b></button>
-                {{ product_data[0] }}
-            <button @click="decrease( product_id, product_data[1] )"><b>-</b></button> 
-            
+            <button @click="increase(product_id, product_data[1])">
+                <b>+</b>
+            </button>
+            {{ product_data[0] }}
+            <button @click="decrease(product_id, product_data[1])">
+                <b>-</b>
+            </button>
+
             <!-- description -->
             {{ product_data[3] }}
-
         </div>
 
         <h2>Sum: {{ this.getSum }}</h2>
@@ -36,7 +39,6 @@ export default {
 
     props: {
         csrf_token: String,
-        
     },
 
     /*
@@ -47,6 +49,7 @@ export default {
         return {
             sum: 0.0,
             shoppinglist: {},
+            loggedin: 0, //referenced by makePurchase()S
         };
     },
 
@@ -55,6 +58,8 @@ export default {
             this.addToCart(product);
         });
         this.readSessionStorage();
+        this.loginCheck();
+        console.log(`loggedin: ${this.loggedin}`);
     },
 
     computed: {
@@ -74,7 +79,7 @@ export default {
             }
             */
 
-            //data received from productcard 
+            //data received from productcard
             let id = product[0];
             let price = product[1];
             let stock = product[2];
@@ -83,7 +88,7 @@ export default {
             if (sessionStorage.getItem("shoppingList") === null) {
                 let JsonShoppingList = {};
 
-                JsonShoppingList[id]= [1, price, stock, description];
+                JsonShoppingList[id] = [1, price, stock, description];
                 sessionStorage.setItem(
                     "shoppingList",
                     JSON.stringify(JsonShoppingList)
@@ -93,7 +98,7 @@ export default {
                     sessionStorage.getItem("shoppingList")
                 );
                 if (JsonShoppingList[id] === undefined) {
-                    JsonShoppingList[id]= [1, price, stock, description];
+                    JsonShoppingList[id] = [1, price, stock, description];
                 } else {
                     //avoid string concatenation
                     let number = parseInt(JsonShoppingList[id][0]);
@@ -122,47 +127,55 @@ export default {
         increase(product_id, price) {
             //retrieve data from sessionstorage
             let JsonShoppingList = JSON.parse(
-                    sessionStorage.getItem("shoppingList"))
+                sessionStorage.getItem("shoppingList")
+            );
             let thisproduct = JsonShoppingList[product_id];
             let count = thisproduct[0];
             let stock = thisproduct[2];
-            
-            if(count < stock){
+
+            if (count < stock) {
                 count += 1;
                 //update productcard stock, try an event $emit?
                 thisproduct[0] = count; //updated count
                 JsonShoppingList[product_id] = thisproduct;
-                sessionStorage.setItem( "shoppingList", JSON.stringify(JsonShoppingList));  
-                this.eventbus.$emit('stockdecrease', product_id); 
-                
+                sessionStorage.setItem(
+                    "shoppingList",
+                    JSON.stringify(JsonShoppingList)
+                );
+                this.eventbus.$emit("stockdecrease", product_id);
+
                 let sum = parseFloat(sessionStorage.getItem("sum"));
                 sum = sum + price;
                 sessionStorage.setItem("sum", sum);
-            }               
+            }
 
             //update displayed data
-            this.readSessionStorage(); 
+            this.readSessionStorage();
         },
-        
+
         decrease(product_id, price) {
             //retrieve data from sessionstorage
             let JsonShoppingList = JSON.parse(
-                    sessionStorage.getItem("shoppingList"))
+                sessionStorage.getItem("shoppingList")
+            );
             let thisproduct = JsonShoppingList[product_id];
             let count = thisproduct[0];
-            
-            if(count > 0){
+
+            if (count > 0) {
                 count -= 1;
                 //update productcard stock, try an event $emit?
                 thisproduct[0] = count; //updated count
                 JsonShoppingList[product_id] = thisproduct;
-                sessionStorage.setItem( "shoppingList", JSON.stringify(JsonShoppingList));  
-                this.eventbus.$emit('stockincrease', product_id);  
-                
+                sessionStorage.setItem(
+                    "shoppingList",
+                    JSON.stringify(JsonShoppingList)
+                );
+                this.eventbus.$emit("stockincrease", product_id);
+
                 let sum = parseFloat(sessionStorage.getItem("sum"));
                 sum = sum - price;
                 sessionStorage.setItem("sum", sum);
-            }               
+            }
 
             //update displayed data
             this.readSessionStorage();
@@ -198,31 +211,50 @@ export default {
             }
         },
 
-        makePurchase() {
-            
-            //add sum to shoppinglistdata
-            let localsum = this.sum;
-            this.shoppinglist['sum'] = localsum;
-
+        loginCheck() {
             //check if customer is logged in, before continuing with axios call
-
             axios({
-                method: "post",
-                url: "/order/store",
-                data: this.shoppinglist,
+                method: "get",
+                url: "/logged_in",
             })
-                .then(function (response) {
-                    console.log(response);
+                //arrow notation is crucial for using keyword 'this'
+                .then((response) => {
+                    this.loggedin = response.data;
                 })
                 .catch(function (error) {
-                    alert(`error message says: ${error}`);
+                    console.log(`error message says: ${error}`);
                 });
+        },
 
-            //empty cart again
-            this.emptyCart();
-            alert(
-                "Thank yoy for making a purchase, we will make a more stylish route for a confirmation message soon."
-            );
+        makePurchase() {
+            if (this.loggedin == 0) {
+                alert("please log in to make a purchase.");
+            }
+            if (this.loggedin == 1) {
+                //add sum to shoppinglistdata
+                let localsum = this.sum;
+                this.shoppinglist["sum"] = localsum;
+
+                //check if customer is logged in, before continuing with axios call
+
+                axios({
+                    method: "post",
+                    url: "/order/store",
+                    data: this.shoppinglist,
+                })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        alert(`error message says: ${error}`);
+                    });
+
+                //empty cart again
+                this.emptyCart();
+                alert(
+                    "Thank you for making a purchase, we will make a more stylish route for a confirmation message soon."
+                );
+            }
         },
     },
 };

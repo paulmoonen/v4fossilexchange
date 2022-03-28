@@ -5380,6 +5380,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "shoppingcart",
@@ -5394,7 +5397,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sum: 0.0,
-      shoppinglist: {}
+      shoppinglist: {},
+      loggedin: 0 //referenced by makePurchase()S
+
     };
   },
   mounted: function mounted() {
@@ -5404,6 +5409,8 @@ __webpack_require__.r(__webpack_exports__);
       _this.addToCart(product);
     });
     this.readSessionStorage();
+    this.loginCheck();
+    console.log("loggedin: ".concat(this.loggedin));
   },
   computed: {
     getSum: function getSum() {
@@ -5420,7 +5427,7 @@ __webpack_require__.r(__webpack_exports__);
           ...
       }
       */
-      //data received from productcard 
+      //data received from productcard
       var id = product[0];
       var price = product[1];
       var stock = product[2];
@@ -5473,7 +5480,7 @@ __webpack_require__.r(__webpack_exports__);
 
         JsonShoppingList[product_id] = thisproduct;
         sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
-        this.eventbus.$emit('stockdecrease', product_id);
+        this.eventbus.$emit("stockdecrease", product_id);
         var sum = parseFloat(sessionStorage.getItem("sum"));
         sum = sum + price;
         sessionStorage.setItem("sum", sum);
@@ -5495,7 +5502,7 @@ __webpack_require__.r(__webpack_exports__);
 
         JsonShoppingList[product_id] = thisproduct;
         sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
-        this.eventbus.$emit('stockincrease', product_id);
+        this.eventbus.$emit("stockincrease", product_id);
         var sum = parseFloat(sessionStorage.getItem("sum"));
         sum = sum - price;
         sessionStorage.setItem("sum", sum);
@@ -5531,23 +5538,43 @@ __webpack_require__.r(__webpack_exports__);
         this.shoppinglist = {};
       }
     },
-    makePurchase: function makePurchase() {
-      //add sum to shoppinglistdata
-      var localsum = this.sum;
-      this.shoppinglist['sum'] = localsum; //check if customer is logged in, before continuing with axios call
+    loginCheck: function loginCheck() {
+      var _this2 = this;
 
+      //check if customer is logged in, before continuing with axios call
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        method: "post",
-        url: "/order/store",
-        data: this.shoppinglist
-      }).then(function (response) {
-        console.log(response);
+        method: "get",
+        url: "/logged_in"
+      }) //arrow notation is crucial for using keyword 'this'
+      .then(function (response) {
+        _this2.loggedin = response.data;
       })["catch"](function (error) {
-        alert("error message says: ".concat(error));
-      }); //empty cart again
+        console.log("error message says: ".concat(error));
+      });
+    },
+    makePurchase: function makePurchase() {
+      if (this.loggedin == 0) {
+        alert("please log in to make a purchase.");
+      }
 
-      this.emptyCart();
-      alert("Thank yoy for making a purchase, we will make a more stylish route for a confirmation message soon.");
+      if (this.loggedin == 1) {
+        //add sum to shoppinglistdata
+        var localsum = this.sum;
+        this.shoppinglist["sum"] = localsum; //check if customer is logged in, before continuing with axios call
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default()({
+          method: "post",
+          url: "/order/store",
+          data: this.shoppinglist
+        }).then(function (response) {
+          console.log(response);
+        })["catch"](function (error) {
+          alert("error message says: ".concat(error));
+        }); //empty cart again
+
+        this.emptyCart();
+        alert("Thank you for making a purchase, we will make a more stylish route for a confirmation message soon.");
+      }
     }
   }
 });
@@ -28812,7 +28839,7 @@ var render = function () {
             },
             [_c("b", [_vm._v("+")])]
           ),
-          _vm._v("\n            " + _vm._s(product_data[0]) + "\n        "),
+          _vm._v("\n        " + _vm._s(product_data[0]) + "\n        "),
           _c(
             "button",
             {
@@ -28825,7 +28852,7 @@ var render = function () {
             [_c("b", [_vm._v("-")])]
           ),
           _vm._v(" "),
-          _vm._v("\n        " + _vm._s(product_data[3]) + "\n\n    "),
+          _vm._v("\n        " + _vm._s(product_data[3]) + "\n    "),
         ])
       }),
       _vm._v(" "),

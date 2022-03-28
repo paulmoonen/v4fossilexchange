@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/store',                 'OrderController@store',        'order.store');        
 });
 
+//shopping cart references this route on "buy" event
+Route::get('/logged_in','UserController@isLoggedIn', 'user.logged_in');
+
 /**
  * fallback for not available or not existing routes
  */
