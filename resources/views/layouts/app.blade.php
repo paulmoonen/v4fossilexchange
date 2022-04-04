@@ -23,21 +23,19 @@
 
 <body>
     <div id="app">
-        <nav class="row header">
+        <nav class="row">
 
-            <div class="col-2">
+            <div class="col-2"></div>
 
-            </div>
-
-            <div class="col-8">
-                <a class="navbar-brand header" href="/">
+            <div class="col-8 header">
+                <a class="navbar-brand" href="/">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 @if(auth()->guest())
-                <p class="header">You are currently not logged in</p>
-                <a href="/login" class="header">log in</a>
+                <p>You are currently not logged in</p>
+                <a href="/login">log in</a>
                 <br>
-                <a href="/register" class="header">register</a>
+                <a href="/register">register</a>
                 <br>
                 @endif
 
@@ -45,17 +43,17 @@
                 <!-- either an admin or a customer is logged in -->
 
                 @if(Auth::user()->role == 2)
-                <p class="header">welcome back {{Auth::user()->name}}.</p>
+                <p >welcome back {{Auth::user()->name}}.</p>
                 @endif
 
                 <!-- links for admin users -->
                 @if(Auth::user()->role == 1)
-                <a href="/admin" class="header">Admin work main page</a>
+                <a href="/admin" >Admin work main page</a>
                 <br>
                 @endif
 
                 <!-- log out requires a proper form element with csrf token-->
-                <a class="header" href="/logout" onclick="event.preventDefault();
+                <a href="/logout" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                     log out
                 </a>

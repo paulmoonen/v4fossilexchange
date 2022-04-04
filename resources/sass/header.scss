@@ -1,22 +1,24 @@
-.header{      
+.header {
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 0.3rem;
     padding: 1rem;
-    margin: 1rem;    
-    border-radius: 0.3rem;    
+    margin: 1rem;
 }
 
-a.header, p.header{
-    /* all links with class "header"*/
-    color: black;
-    font-weight: 200;
-    font-size: large;
-}
-
-nav{
+nav {
     /* a fallback for image display problems*/
-    background-color: grey; 
-    
+    background-color: grey;
+
     background-image: url("/pictures/krijtrotsen.jpg");
     background-repeat: no-repeat;
-    background-size: 100vw;    
+    background-size: 100vw;
 }
 
+nav a{
+    color: orangered;
+}
+
+nav p{
+    color: black;
+}
