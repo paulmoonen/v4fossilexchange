@@ -11353,7 +11353,7 @@ input {
 }
 
 .admin_productselect > .col-8 {
-  background-color: darkseagreen;
+  background-color: darkcyan;
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
@@ -11361,7 +11361,7 @@ input {
 
 #selectlist {
   overflow-y: scroll;
-  background-color: lightseagreen;
+  background-color: aquamarine;
 }
 
 #app {
