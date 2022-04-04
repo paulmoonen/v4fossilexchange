@@ -36,13 +36,6 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         DB::table('categories')->insert([
-            'name'          => 'Coprolite',
-            'description'   => 'The animal kingdom has been defecating for milions of years...',
-            'created_by'    => 1,
-            'created_at'    => now()
-        ]);
-
-        DB::table('categories')->insert([
             'name'          => 'Plants',
             'description'   => 'Once they were actually green',
             'created_by'    => 1,
