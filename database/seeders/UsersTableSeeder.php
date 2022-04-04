@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'name'          => 'Bob',
-            'email'         => 'bob@fossilexchange.nl',
+            'email'         => 'client@fossilexchange.nl',
             'password'      => bcrypt('mypassword'),
             'street'        => 'Klapbrugweg',
             'housenumber'   => '23-a',

@@ -1,7 +1,24 @@
-.header{
-    background-color: lightgrey;
+.header {
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 0.3rem;
     padding: 1rem;
     margin: 1rem;
-    color:black;
-    border-radius: 0.3rem;    
+}
+
+nav {
+    /* a fallback for image display problems*/
+    background-color: grey;
+
+    background-image: url("/pictures/krijtrotsen.jpg");
+    background-repeat: no-repeat;
+    background-size: 100vw;
+}
+
+nav a{
+    color: orangered;
+}
+
+nav p{
+    color: black;
 }

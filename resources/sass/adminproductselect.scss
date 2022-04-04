@@ -1,6 +1,11 @@
 .admin_productselect > .col-8{
-    background-color: burlywood;
+    background-color: darkcyan;
     padding: 1rem;
     margin: 1rem;
     border-radius: 0.3rem;
+}
+
+#selectlist{
+    overflow-y: scroll;
+    background-color: aquamarine;
 }

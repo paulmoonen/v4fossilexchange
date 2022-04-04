@@ -5573,7 +5573,7 @@ __webpack_require__.r(__webpack_exports__);
         }); //empty cart again
 
         this.emptyCart();
-        alert("Thank you for making a purchase, we will make a more stylish route for a confirmation message soon.");
+        alert("Thank you for making a purchase. You can view your order history on your personal page.");
       }
     }
   }
