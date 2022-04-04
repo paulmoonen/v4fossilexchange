@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Invoice;
 
 class OrderController extends Controller
@@ -118,7 +119,29 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        //user id must be equal to user who made the order 
+        if( !(Auth::id() === Order::find( $id )->user_id ) ){
+            return redirect('/pagenotfound');
+        }
+
+        $order = Order::find($id);
+        $invoice = DB::table('invoices')
+            ->where('order_id', '=', $id)
+            ->select('sum', 'text')
+            ->get();
+        $products = DB::table('products')
+            ->join('order_product', 'order_product.product_id', '=','products.id')
+            ->join('orders', 'orders.id', '=', 'order_product.order_id')            
+            ->select('products.price','products.description', 'order_product.amount')
+            ->where('orders.id', $id )
+            ->get();
+
+            //ddd($invoice);
+        return view('/order/order',[
+            'order'         => $order,
+            'invoice'       => $invoice[0],
+            'products'      => $products
+        ]);
     }
 
     /**

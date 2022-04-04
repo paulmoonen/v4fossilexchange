@@ -40,6 +40,12 @@ Route::get('/logged_in',function(){
     }
 });
 
+//user routes
+Route::middleware('auth')->group(function(){
+    Route::get('/user/{id}',                         'UserController@show',         'user.show');
+
+});
+
 /**
  * fallback for not available or not existing routes
  */

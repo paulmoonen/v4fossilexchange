@@ -252,7 +252,7 @@ export default {
                 //empty cart again
                 this.emptyCart();
                 alert(
-                    "Thank you for making a purchase, we will make a more stylish route for a confirmation message soon."
+                    "Thank you for making a purchase. You can view your order history on your personal page."
                 );
             }
         },

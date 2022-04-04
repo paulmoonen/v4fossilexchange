@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'ammonite',
             'originsite'    => 3,
-            'description'   => 'fragment with distinct surface pattern',
+            'description'   => 'Ammonite fragment with distinct, fractal-like surface pattern',
             'picture'       => 'ammoniet1_bijgesneden.jpg',
             'price'         => 1.23,
             'stock'         => 3,
@@ -29,7 +29,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'ammonite',
             'originsite'    => 3,
-            'description'   => 'fragment with distinct surface ribs',
+            'description'   => 'Ammonite fragment with distinct radial surface ribs',
             'picture'       => 'ammoniet2_bijgesneden.jpg',
             'price'         => 2.00,
             'stock'         => 5,
@@ -41,7 +41,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'ammonite',
             'originsite'    => 3,
-            'description'   => 'fragment of ammonite',
+            'description'   => 'Ammonite, worn surface',
             'picture'       => 'ammoniet3_bijgesneden.jpg',
             'price'         => 3.25,
             'stock'         => 3,
@@ -53,7 +53,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'brachiopod',
             'originsite'    => 2,
-            'description'   => 'fossil in white chalk rock',
+            'description'   => 'Brachiopods with smooth, undulating edges',
             'picture'       => 'brachiopoden1_bijgesneden.jpg',
             'price'         => 1.23,
             'stock'         => 10,
@@ -65,7 +65,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'brachiopod',
             'originsite'    => 2,
-            'description'   => 'fossil in white chalk rock',
+            'description'   => 'Brachiopods with surface ribs',
             'picture'       => 'brachiopoden2_bijgesneden.jpg',
             'price'         => 1.32,
             'stock'         => 12,
@@ -77,7 +77,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'brachiopod',
             'originsite'    => 4,
-            'description'   => 'fossil in white chalk rock',
+            'description'   => 'Brachiopods from white chalk rock',
             'picture'       => 'brachiopoden3_bijgesneden.jpg',
             'price'         => 1.35,
             'stock'         => 5,
@@ -89,7 +89,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'brachiopod',
             'originsite'    => 5,
-            'description'   => 'beach fossil',
+            'description'   => 'Single Brachiopod shell, the Dutch call this suikerschepje (sugar spoon )',
             'picture'       => 'brachiopod_borssele.jpg',
             'price'         => 1.00,
             'stock'         => 1,
@@ -101,7 +101,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'plant',
             'originsite'    => 1,
-            'description'   => 'slate fossil',
+            'description'   => 'Fern fossil in slate rock',
             'picture'       => 'plant1_bijgesneden.jpg',
             'price'         => 1.00,
             'stock'         => 3,
@@ -113,7 +113,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'plant',
             'originsite'    => 1,
-            'description'   => 'slate fossil',
+            'description'   => 'Fern fossil in slate rock',
             'picture'       => 'plant2_bijgesneden.jpg',
             'price'         => 1.00,
             'stock'         => 3,
@@ -125,7 +125,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'plant',
             'originsite'    => 1,
-            'description'   => 'slate fossil',
+            'description'   => 'Fern fossil in slate rock',
             'picture'       => 'plant3_bijgesneden.jpg',
             'price'         => 1.00,
             'stock'         => 3,
@@ -137,7 +137,7 @@ class ProductsTableSeeder extends Seeder
         DB::table('products')->insert([
             'name'          => 'sea urchin',
             'originsite'    => 6,
-            'description'   => 'fossil in white chalk rock',
+            'description'   => 'Sea urchin fragment in white chalk rock',
             'picture'       => 'zee-egel.jpg',
             'price'         => 1.00,
             'stock'         => 3,

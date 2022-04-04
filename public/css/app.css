@@ -11314,7 +11314,6 @@ nav p {
   color: black;
   background-color: lightgray;
   padding: 1rem;
-  margin: 1rem;
   border-radius: 0.3rem;
 }
 
@@ -11374,4 +11373,26 @@ input {
   padding: 1rem;
   border-radius: 0.3rem;
   background-color: darkcyan;
+}
+
+.orderpage {
+  background-color: darkolivegreen;
+}
+
+.informationfield {
+  background-color: olive;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+
+.accountpage {
+  background-color: khaki;
+}
+
+.userdata {
+  background-color: burlywood;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
 }
