@@ -11289,18 +11289,22 @@ textarea.form-control-lg {
 .header {
   padding: 1rem;
   margin: 1rem;
-  color: black;
   border-radius: 0.3rem;
-  opacity: 1;
+}
+
+a.header, p.header {
+  /* all links with class "header"*/
+  color: black;
+  font-weight: 200;
+  font-size: large;
 }
 
 nav {
+  /* a fallback for image display problems*/
   background-color: grey;
-  /* a fallback for image display problems */
   background-image: url("/pictures/krijtrotsen.jpg");
   background-repeat: no-repeat;
   background-size: 100vw;
-  opacity: 0.5;
 }
 
 .footer {
