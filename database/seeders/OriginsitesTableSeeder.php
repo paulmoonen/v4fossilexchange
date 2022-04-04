@@ -61,5 +61,13 @@ class OriginsitesTableSeeder extends Seeder
             'created_at'    => now(),
             'created_by'    => 1
         ]);
+
+        DB::table('originsites')->insert([
+            'name'          => "Rheine",
+            'description'   => "Open air limestone mine. No entrance, but surrounding farm fields in january ( no crops yet ) are rich in stones broken up by plowing.",
+            'country'       => 5,
+            'created_at'    => now(),
+            'created_by'    => 1
+        ]);
     }
 }

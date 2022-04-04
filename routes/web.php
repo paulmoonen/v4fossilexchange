@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function(){
 
 });
 
+//pictures retrieving route used by productcard Vue components
+Route::get('/pictures/{id}', 'PicturesController@getPictures', 'pictures.list');
+
 /**
  * fallback for not available or not existing routes
  */

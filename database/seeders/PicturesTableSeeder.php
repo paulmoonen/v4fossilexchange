@@ -109,5 +109,23 @@ class PicturesTableSeeder extends Seeder
             'created_by'    => 0, //machine
             'name'          => 'zee-egel.jpg'
         ]);
+
+        DB::table('pictures')->insert([
+            'created_at'    => now(),
+            'created_by'    => 0, //machine
+            'name'          => 'ammonite1_de.jpg'
+        ]);
+
+        DB::table('pictures')->insert([
+            'created_at'    => now(),
+            'created_by'    => 0, //machine
+            'name'          => 'ammonite2_de.jpg'
+        ]);
+
+        DB::table('pictures')->insert([
+            'created_at'    => now(),
+            'created_by'    => 0, //machine
+            'name'          => 'ammonite3_de.jpg'
+        ]);
     }
 }

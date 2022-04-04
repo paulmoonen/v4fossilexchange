@@ -5277,6 +5277,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "productcard",
   props: {
@@ -5288,27 +5299,30 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      //buy button disable counter variable 
-      stockcounter: this.stock
+      //buy button disable counter variable
+      stockcounter: this.stock,
+      picturedisplaylist: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     //counter and display reset
-    this.eventbus.$on('emptycart', function () {
+    this.eventbus.$on("emptycart", function () {
       _this.reset();
     });
-    this.eventbus.$on('stockdecrease', function (product_id) {
+    this.eventbus.$on("stockdecrease", function (product_id) {
       if (product_id == _this.id) {
         _this.stockcounter -= 1;
       }
     });
-    this.eventbus.$on('stockincrease', function (product_id) {
+    this.eventbus.$on("stockincrease", function (product_id) {
       if (product_id == _this.id) {
         _this.stockcounter += 1;
       }
-    });
+    }); //prepare a list of pictures
+
+    this.makePictureList();
   },
   computed: {
     getImgUrl: function getImgUrl() {
@@ -5320,7 +5334,7 @@ __webpack_require__.r(__webpack_exports__);
     addToBasket: function addToBasket() {
       this.stockcounter -= 1;
       var product = [this.id, this.price, this.stock, this.description];
-      this.eventbus.$emit('tocart', product);
+      this.eventbus.$emit("tocart", product);
     },
 
     /*
@@ -5331,6 +5345,30 @@ __webpack_require__.r(__webpack_exports__);
       if (this.stockcounter < this.stock) {
         this.stockcounter = this.stock;
       }
+    },
+
+    /*
+    function to return a list of all picture filepaths for this product
+    for v-binding to src property of one or more <img> elements
+    */
+    makePictureList: function makePictureList() {
+      /*
+      find a list of all pictures for this product
+      */
+      axios({
+        method: "get",
+        url: "/pictures/" + this.id,
+        data: this.id
+      }).then(function (response) {
+        //this.picturedatalist = response.data;
+        var responselist = response.data;
+        responselist.forEach(function (picturedata) {
+          var name = picturedata.name;
+          console.log(name);
+        });
+      })["catch"](function (error) {
+        alert("error message says: ".concat(error));
+      });
     }
   }
 });
@@ -10684,7 +10722,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n\tmargin: 1rem;\n\tpadding: 0.5rem;\n\tborder-radius: 0.3rem;\n\tbackground-color: aqua;\n}\nimg[data-v-1a457ff8]{\n\tborder-radius: 0.3rem;\n}\nbutton[data-v-1a457ff8]{\n\tmargin:0.3rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n    margin: 1rem;\n    padding: 0.5rem;\n    border-radius: 0.3rem;\n    background-color: aqua;\n}\nimg[data-v-1a457ff8] {\n    border-radius: 0.3rem;\n}\nbutton[data-v-1a457ff8] {\n    margin: 0.3rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28743,7 +28781,7 @@ var render = function () {
     _c(
       "form",
       {
-        staticClass: "productcard ",
+        staticClass: "productcard",
         on: {
           submit: function ($event) {
             $event.preventDefault()
@@ -28764,7 +28802,7 @@ var render = function () {
               name: "show",
               rawName: "v-show",
               value: this.image,
-              expression: "(this.image)",
+              expression: "this.image",
             },
           ],
           staticClass: "img-fluid",
@@ -28779,7 +28817,7 @@ var render = function () {
                 name: "show",
                 rawName: "v-show",
                 value: !this.image,
-                expression: "(!this.image)",
+                expression: "!this.image",
               },
             ],
           },
@@ -28789,7 +28827,7 @@ var render = function () {
         _c(
           "button",
           { attrs: { type: "submit", disabled: !this.stockcounter } },
-          [_vm._v("🛒 add to cart")]
+          [_vm._v("\n            🛒 add to cart\n        ")]
         ),
       ]
     ),

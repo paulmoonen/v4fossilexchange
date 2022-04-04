@@ -244,5 +244,26 @@ class ProductCategoryTableSeeder extends Seeder
             'created_by'    => 1,
             'created_at'    => now()
         ]);
+
+        DB::table('product_category')->insert([
+            'product_id'       => 12,
+            'category_id'      => 2,
+            'created_by'    => 1,
+            'created_at'    => now()
+        ]);
+
+        DB::table('product_category')->insert([
+            'product_id'       => 12,
+            'category_id'      => 5,
+            'created_by'    => 1,
+            'created_at'    => now()
+        ]);
+
+        DB::table('product_category')->insert([
+            'product_id'       => 12,
+            'category_id'      => 7,
+            'created_by'    => 1,
+            'created_at'    => now()
+        ]);
     }
 }

@@ -145,5 +145,19 @@ class ProductsTableSeeder extends Seeder
             'created_at'    => now(),
             'modified_by'   => 0    
         ]);
+
+        DB::table('products')->insert([
+            'name'          => 'ammonite',
+            'originsite'    => 7,
+            'description'   => 'ammonite imprint in limestone',
+            'picture'       => 'ammonite1_de.jpg',
+            'price'         => 1.00,
+            'stock'         => 3,
+            'created_by'    => 1,
+            'created_at'    => now(),
+            'modified_by'   => 0    
+        ]);
+
+        
     }
 }
