@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
@@ -28,7 +29,22 @@ Route::middleware('auth')->group(function(){
 });
 
 //shopping cart references this route on "buy" event
-Route::get('/logged_in','UserController@isLoggedIn', 'user.logged_in');
+//Route::get('/logged_in','UserController@isLoggedIn', 'user.logged_in');
+//route referenced by shopping cart component on checkout
+Route::get('/logged_in',function(){
+    if(Auth::check()){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+});
+
+//user routes
+Route::middleware('auth')->group(function(){
+    Route::get('/user/{id}',                         'UserController@show',         'user.show');
+
+});
 
 /**
  * fallback for not available or not existing routes

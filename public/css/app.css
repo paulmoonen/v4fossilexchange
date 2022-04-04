@@ -11287,18 +11287,33 @@ textarea.form-control-lg {
   }
 }
 .header {
-  background-color: lightgrey;
+  background-color: white;
+  opacity: 0.8;
+  border-radius: 0.3rem;
   padding: 1rem;
   margin: 1rem;
+}
+
+nav {
+  /* a fallback for image display problems*/
+  background-color: grey;
+  background-image: url("/pictures/krijtrotsen.jpg");
+  background-repeat: no-repeat;
+  background-size: 100vw;
+}
+
+nav a {
+  color: orangered;
+}
+
+nav p {
   color: black;
-  border-radius: 0.3rem;
 }
 
 .footer {
   color: black;
   background-color: lightgray;
   padding: 1rem;
-  margin: 1rem;
   border-radius: 0.3rem;
 }
 
@@ -11338,10 +11353,15 @@ input {
 }
 
 .admin_productselect > .col-8 {
-  background-color: burlywood;
+  background-color: darkcyan;
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
+}
+
+#selectlist {
+  overflow-y: scroll;
+  background-color: aquamarine;
 }
 
 #app {
@@ -11352,4 +11372,32 @@ input {
   padding: 1rem;
   border-radius: 0.3rem;
   background-color: aquamarine;
+}
+
+.homepage {
+  padding: 1rem;
+  border-radius: 0.3rem;
+  background-color: darkcyan;
+}
+
+.orderpage {
+  background-color: darkolivegreen;
+}
+
+.informationfield {
+  background-color: olive;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+
+.accountpage {
+  background-color: khaki;
+}
+
+.userdata {
+  background-color: burlywood;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 0.3rem;
 }

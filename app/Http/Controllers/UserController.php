@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -46,7 +48,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);        
+        $orders = Order::where('user_id', $id)->get();
+            
+        return view('user/index',[
+            'user'      => $user,
+            'orders'    => $orders
+        ]);
     }
 
     /**
@@ -83,20 +91,20 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * check if user is logged in
-     * method for axios call from shopping cart
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function isLoggedIn(Request $request){
+    // /**
+    //  * check if user is logged in
+    //  * method for axios call from shopping cart
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function isLoggedIn(Request $request){
 
-        if(Auth::check()){
-            return 1;
-        }
-        else{
-            return 0;
-        }
+    //     if(Auth::check()){
+    //         return 1;
+    //     }
+    //     else{
+    //         return 0;
+    //     }
 
-    }
+    // }
 }
