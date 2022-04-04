@@ -11353,10 +11353,15 @@ input {
 }
 
 .admin_productselect > .col-8 {
-  background-color: burlywood;
+  background-color: darkseagreen;
   padding: 1rem;
   margin: 1rem;
   border-radius: 0.3rem;
+}
+
+#selectlist {
+  overflow-y: scroll;
+  background-color: lightseagreen;
 }
 
 #app {
