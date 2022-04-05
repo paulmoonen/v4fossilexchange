@@ -14,7 +14,6 @@
                 v-show="this.image"
             />
 
-
             <!-- only show an image element if there is an image -->
             <span v-show="!this.image">No image available &#128248; </span>
             <button type="submit" :disabled="!this.stockcounter">
@@ -40,7 +39,7 @@ export default {
         return {
             //buy button disable counter variable
             stockcounter: this.stock,
-            picturedisplaylist: []
+            
         };
     },
 
@@ -60,8 +59,7 @@ export default {
                 this.stockcounter += 1;
             }
         });
-		//prepare a list of pictures
-		this.makePictureList();        
+		     
     },
 
     computed: {
@@ -87,38 +85,7 @@ export default {
                 this.stockcounter = this.stock;
             }
         },
-		/*
-		function to return a list of all picture filepaths for this product
-		for v-binding to src property of one or more <img> elements
-		*/
-		makePictureList: function(){
-			/*
-			find a list of all pictures for this product
-			*/
-			axios({
-				method: "get",
-				url: "/pictures/"+this.id,
-				data: this.id,
-			})
-			.then((response) => {
-				//this.picturedatalist = response.data;
-				let responselist = response.data;
-				responselist.forEach(function(picturedata){
-					let name = picturedata.name;
-					console.log(name);
-					
-					
-
-				})
-			})
-			.catch(function (error) {
-				alert(`error message says: ${error}`);
-			});
-			
-			
-
-
-		}
+		
     },
 };
 </script>

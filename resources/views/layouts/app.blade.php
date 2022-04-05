@@ -43,7 +43,7 @@
                 <!-- either an admin or a customer is logged in -->
 
                 @if(Auth::user()->role == 2)
-                <p>welcome back {{Auth::user()->name}}.</p>
+                <p>Welcome back {{Auth::user()->name}}.</p>
                 <a href="/user/{{Auth::user()->id}}">My Personal Page</a>
                 <br>
                 <a href="/">Shop</a>
@@ -67,6 +67,8 @@
                 </form>
 
                 @endif
+                <br>
+                <a href="/shoppingcart">Shopping Cart</a>
 
             </div>
             <div class="col-2"></div>
@@ -80,7 +82,7 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-                <h2 class="footer">Legal notice</h2>
+                <h2 class="footer">Links and legal notices</h2>
             </div>
             <div class="col-2"></div>
         </div>

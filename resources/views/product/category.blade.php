@@ -15,11 +15,9 @@
     </div>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
 
-            <shoppingcart>
-                {{ csrf_field() }}
-            </shoppingcart>
+            <shoppingcart hidden >{{ csrf_field() }}</shoppingcart>
             
         </div>
         
@@ -37,7 +35,7 @@
                 </productcard>   
             </div>
         </div>
-        <div class="col-1"></div>
+        <div class="col-2"></div>
     </div>
 
 @endsection

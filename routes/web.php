@@ -27,6 +27,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/order/show/{id}',              'OrderController@show',         'order.show'); //authentication check in method show
     Route::post('/order/store',                 'OrderController@store',        'order.store');        
 });
+Route::get('/shoppingcart', function(){
+    return view('shoppingcart');
+});
 
 //shopping cart references this route on "buy" event
 //Route::get('/logged_in','UserController@isLoggedIn', 'user.logged_in');

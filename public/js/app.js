@@ -5287,7 +5287,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "productcard",
   props: {
@@ -5300,8 +5299,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       //buy button disable counter variable
-      stockcounter: this.stock,
-      picturedisplaylist: []
+      stockcounter: this.stock
     };
   },
   mounted: function mounted() {
@@ -5320,9 +5318,7 @@ __webpack_require__.r(__webpack_exports__);
       if (product_id == _this.id) {
         _this.stockcounter += 1;
       }
-    }); //prepare a list of pictures
-
-    this.makePictureList();
+    });
   },
   computed: {
     getImgUrl: function getImgUrl() {
@@ -5345,30 +5341,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.stockcounter < this.stock) {
         this.stockcounter = this.stock;
       }
-    },
-
-    /*
-    function to return a list of all picture filepaths for this product
-    for v-binding to src property of one or more <img> elements
-    */
-    makePictureList: function makePictureList() {
-      /*
-      find a list of all pictures for this product
-      */
-      axios({
-        method: "get",
-        url: "/pictures/" + this.id,
-        data: this.id
-      }).then(function (response) {
-        //this.picturedatalist = response.data;
-        var responselist = response.data;
-        responselist.forEach(function (picturedata) {
-          var name = picturedata.name;
-          console.log(name);
-        });
-      })["catch"](function (error) {
-        alert("error message says: ".concat(error));
-      });
     }
   }
 });
