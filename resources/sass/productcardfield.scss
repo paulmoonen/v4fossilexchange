@@ -1,4 +1,13 @@
 .productcardfield{
     scroll-behavior: auto;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.productcard{
+    min-width: 150px;
+    max-width: 200px;
+    
 
 }

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="admin product_edit row">
+<div class="admin row">
     <div class="col-2"></div>
     <div class="col-8">
 
-        <form action="/admin/product/update/{{$product->id}}" method="post">
+        <form action="/admin/product/update/{{$product->id}}" method="post" class="product_edit"> 
             <!-- csrf token-->
             <?php echo csrf_field(); ?>
 
