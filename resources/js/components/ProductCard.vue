@@ -94,8 +94,11 @@ export default {
 .productcard {
     margin: 1rem;
     padding: 0.5rem;
+    border-style: solid;
+    border-width: 1px;
+    border-color:orangered;
     border-radius: 0.3rem;
-    background-color: aqua;
+    background-color: aquamarine;
 }
 img {
     border-radius: 0.3rem;
