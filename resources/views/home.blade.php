@@ -4,11 +4,9 @@
 
 <div class="container">
     <div class="row homepage">
-        <div class="col-3">
+        <div class="col-2">
             
-            <shoppingcart>
-                {{ csrf_field() }}
-            </shoppingcart>
+            <!-- <shoppingcart>{{ csrf_field() }}</shoppingcart> -->
 
         </div>
         <div class="categories col-8">
@@ -25,7 +23,7 @@
             </ul>
         </div>
 
-        <div class="col-1"></div>
+        <div class="col-2"></div>
     </div>
 
 </div>
