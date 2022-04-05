@@ -151,6 +151,21 @@ export default {
 
             //update displayed data
             this.readSessionStorage();
+
+            //experiment: axios call to server
+            axios({
+                method: "post",
+                url: `/cart/add/${product_id}`,
+                data: { 
+                    modifier:  1
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(`error message says: ${error}`);
+                });
         },
 
         decrease(product_id, price) {
@@ -179,12 +194,37 @@ export default {
 
             //update displayed data
             this.readSessionStorage();
+
+            //experiment: axios call to server
+            axios({
+                method: "post",
+                url: `/cart/add/${product_id}`,
+                data: { 
+                    modifier:  -1
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(`error message says: ${error}`);
+                });
         },
 
         emptyCart() {
             sessionStorage.clear();
             this.readSessionStorage(); //update ShoppingCart component
             this.eventbus.$emit("emptycart");
+
+            axios({
+                method: "delete",
+                url: '/cart/clear'
+            }).then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(`error message says: ${error}`);
+                });
         },
 
         //retrieve sum from browser's session storage

@@ -69,6 +69,8 @@
                 @endif
                 <br>
                 <a href="/shoppingcart">Shopping Cart</a>
+                <br>
+                <a href="/cart">Experimental shopping cart</a>
 
             </div>
             <div class="col-2"></div>

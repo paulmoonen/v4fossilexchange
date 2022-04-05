@@ -1,7 +1,10 @@
 <template>
     <div class="col-4">
         <form class="productcard" @submit.prevent="addToBasket">
-           
+            <slot>
+                <!--  csrf token from blade-->
+            </slot>
+
             <p>
                 <b>{{ this.description }}</b>
             </p>
@@ -39,7 +42,6 @@ export default {
         return {
             //buy button disable counter variable
             stockcounter: this.stock,
-            
         };
     },
 
@@ -59,7 +61,6 @@ export default {
                 this.stockcounter += 1;
             }
         });
-		     
     },
 
     computed: {
@@ -74,6 +75,21 @@ export default {
             this.stockcounter -= 1;
             let product = [this.id, this.price, this.stock, this.description];
             this.eventbus.$emit("tocart", product);
+
+            //experiment: axios call to server
+            axios({
+                method: "post",
+                url: `/cart/add/${this.id}`,
+                data: { 
+                    modifier:  1
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(`error message says: ${error}`);
+                });
         },
 
         /*
@@ -85,7 +101,6 @@ export default {
                 this.stockcounter = this.stock;
             }
         },
-		
     },
 };
 </script>
@@ -96,7 +111,7 @@ export default {
     padding: 0.5rem;
     border-style: solid;
     border-width: 1px;
-    border-color:orangered;
+    border-color: orangered;
     border-radius: 0.3rem;
     background-color: aquamarine;
 }

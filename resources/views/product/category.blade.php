@@ -24,6 +24,7 @@
         <div class="col-8 productcardfield">
 
             <productcard v-for="product in {{ $products }}" v-bind:key="product.id" v-bind:id="product.id" v-bind:description="product.description" v-bind:price="product.price" v-bind:stock="product.stock" v-bind:image="product.picture">
+                {{ csrf_field() }} <!-- csrf token in slot of productcard component -->
             </productcard>
 
         </div>

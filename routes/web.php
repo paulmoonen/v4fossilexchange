@@ -52,6 +52,12 @@ Route::middleware('auth')->group(function(){
 //pictures retrieving route used by productcard Vue components
 Route::get('/pictures/{id}', 'PicturesController@getPictures', 'pictures.list');
 
+//server sided version shopping cart
+Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');  //adds 1 item to cart
+Route::get('/cart',             'ShoppingCartController@create',    'cart.edit'); //returns a form with prefilled, editable data 
+Route::delete('/cart/clear',    'ShoppingCartController@emptycart', 'cart.empty');
+Route::post('/cart/store',      'ShoppingCartController@store',     'cart.store'); //receives customer-updated version of cart data 
+
 /**
  * fallback for not available or not existing routes
  */
