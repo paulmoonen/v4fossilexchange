@@ -9,10 +9,12 @@
             @csrf
             <h1>Sum: {{ $sum }}</h1>
             <ul>
+                <!-- data in cartitem : [ count, price, stock, name, description ] -->
                 <?php foreach ($cartitems as $id => $cartitem) : ?>
 
-                    <input type="number" name="$id" id="$id" step="1" min="0" value="{{$cartitem[0]}}">
-                    <label for="$id">Name:{{$cartitem[3]}}</label>
+                    <input type="number" name="{{$id}}" id="{{$id}}" step="1" min="0" max="{{$cartitem[2]}}" value="{{$cartitem[0]}}">
+                    <label for="$id">{{$cartitem[3]}}: {{$cartitem[4]}}</label>
+                    <br>
 
                 <?php endforeach ?>
             </ul>

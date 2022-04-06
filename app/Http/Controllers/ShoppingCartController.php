@@ -49,7 +49,39 @@ class ShoppingCartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //read $request data
+        $itemlist = $request->all();
+        
+        //erase previous cart data
+        session()->forget('sum');
+        session()->forget('shoppingcart');  
+        $sum = 0;
+        $shoppingcart = [];   
+        /*
+        data in shopping cart:
+        product_id : [ count, price, stock, name, description ]
+        */           
+        foreach( $itemlist as $key => $value ){ //product_id -->  count
+            
+            //skip the csrf token that is sent along with the request
+            if($key !="_token"){
+                
+                //ignore ( and thus forget ) items with count 0
+                if( $value == 0 ){ continue;}
+
+                $product = Product::find($key);
+                $shoppingcart[$key] = [$value, 
+                                        $product->price,
+                                        $product->stock,
+                                        $product->name,
+                                        $product->description];
+                
+                $sum = $sum +  ( $product->price * $value );
+            }    
+        }
+        session()->put('shoppingcart', $shoppingcart);
+        session()->put('sum', $sum);
+        return redirect('/'); //home
     }
 
     /**
@@ -88,16 +120,17 @@ class ShoppingCartController extends Controller
         $price = $product->price;
         $stock = $product->stock;
         $name = $product->name;
+        $description = $product->description;
         //addition or subtraction?
         $modifier = $request->json('modifier');
         /*
         data in shopping cart:
-        product_id : [ count, price, stock, name ]
+        product_id : [ count, price, stock, name, description ]
         */
         //check for presence of a shoppingcart in session array
         $shoppingcart = session()->get('shoppingcart');        
         if(!$shoppingcart){
-            $shoppingcart[$id] = [1,$price, $stock, $name ];
+            $shoppingcart[$id] = [1,$price, $stock, $name, $description ];
             session()->put('shoppingcart', $shoppingcart); 
         }
         else{
@@ -108,7 +141,7 @@ class ShoppingCartController extends Controller
                 session()->put('shoppingcart', $shoppingcart);
             }
             else{
-                $shoppingcart[$id] = [1,$price, $stock, $name ];
+                $shoppingcart[$id] = [1,$price, $stock, $name, $description ];
                 session()->put('shoppingcart', $shoppingcart);
             }
         }                    
