@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/order/show/{id}',              'OrderController@show',         'order.show'); //authentication check in method show
     Route::post('/order/store',                 'OrderController@store',        'order.store');        
 });
+Route::get('/order/create', 'OrderController@create', 'order.new');
+
 Route::get('/shoppingcart', function(){
     return view('shoppingcart');
 });
@@ -55,7 +57,7 @@ Route::get('/pictures/{id}', 'PicturesController@getPictures', 'pictures.list');
 //server sided version shopping cart
 Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');  //adds 1 item to cart
 Route::get('/cart',             'ShoppingCartController@create',    'cart.edit'); //returns a form with prefilled, editable data 
-Route::delete('/cart/clear',    'ShoppingCartController@emptycart', 'cart.empty');
+Route::post('/cart/clear',    'ShoppingCartController@emptycart', 'cart.empty');
 Route::post('/cart/store',      'ShoppingCartController@store',     'cart.store'); //receives customer-updated version of cart data 
 
 /**

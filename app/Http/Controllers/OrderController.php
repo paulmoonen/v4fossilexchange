@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderProduct;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Invoice;
@@ -19,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -29,7 +30,37 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        /*
+        order content data from: 
+        session()->('shoppingcart')
+        session()->('sum')
+        User address data fields
+        */
+        $sum = session()->get('sum');
+        if(!$sum){ 
+            $sum = 0.00; 
+        }
+        $cartitems = session()->get('shoppingcart');
+        if(!$cartitems){ 
+            $cartitems = [];  //avoid display errors
+        }
+        $user = Auth::user();
+        $name = $user->name;
+        $street = $user->street;
+        $housenumber = $user->housenumber;
+        $postal_code = $user->postal_code;
+        $city = $user->city;
+        $country = $user->country;  
+        return view('/order/checkout', [
+            'sum'               => $sum,
+            'cartitems'         => $cartitems,
+            'name'              => $name,
+            'street'            => $street,
+            'housenumber'       => $housenumber,
+            'postal_code'       => $postal_code,
+            'city'              => $city,
+            'country'           => $country
+        ]);
     }
 
     /**
@@ -40,7 +71,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {   
-        
+        //an order record only has two fields: 'user_id' and 'date'
         $order = new Order([
             'user_id'   => Auth::user()->id,
             'date'      => now()
@@ -58,16 +89,21 @@ class OrderController extends Controller
         */
         //local variable, declared out here to avoid scope problems
         $sum = 0.00;
-        $itemlist = $request->all();                
+        $itemlist = $request->all();  
+        ddd($itemlist);              
         foreach( $itemlist as $key => $value ){
-            if($key != 'sum'){
+
+                if( $key == "_token"){ continue; }  //csrf token is not needed any more
+            
 
                 $order_product = new OrderProduct([
                     'order_id'      => $order_id, 
                     'product_id'    => $key,
-                    'amount'        => $value[0]             
+                    'amount'        => $value             
                 ]);
-                $order_product->save();                           
+                $order_product->save();
+                $price = Product::get($key)->price;
+                $sum = $sum + ( $price * $value );                           
                 
                 //decrease the stock in the products table    
                 $old_stock = intval($value[2]);
@@ -76,8 +112,7 @@ class OrderController extends Controller
                 Product::where('id', intval($key))->update([
                     'stock' => $new_stock ]
                 );
-            }
-            if($key == 'sum'){$sum = $value;}
+                     
         }
         
         //create an invoice
@@ -109,6 +144,11 @@ class OrderController extends Controller
             'created_by'        => 0//machine: any other user, e.g. admin, has an id > 0
         ]);
         $invoice->save();
+        //empty cart and go home
+        session()->forget('sum');
+        session()->forget('shoppingcart');
+        return redirect('/'); //home
+
     }
 
     /**

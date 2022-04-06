@@ -22,13 +22,10 @@
         </form>
 
         <!-- purchase form -->
-        <form action="/order/store" method="post">
-            @csrf
-            <button type="submit">Buy</button>        
-        </form>
+        <a href="/order/create">Checkout</a>
 
         <!-- empty cart form -->
-        <form action="/cart/clear" method="delete">
+        <form action="/cart/clear" method="post">
             @csrf
             <button type="submit">Empty cart</button>        
         </form>

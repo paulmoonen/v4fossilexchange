@@ -179,6 +179,6 @@ class ShoppingCartController extends Controller
     public function emptycart(){
         session()->forget('sum');
         session()->forget('shoppingcart');
-        return("empty cart method is called");
+        return redirect('/'); //home
     }
 }
