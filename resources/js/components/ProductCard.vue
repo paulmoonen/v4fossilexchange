@@ -42,10 +42,12 @@ export default {
         return {
             //buy button disable counter variable
             stockcounter: this.stock,
+            imageslist: []
         };
     },
 
     mounted: function () {
+        //make a list of all pictures of this product
         
     },
 

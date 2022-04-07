@@ -5302,10 +5302,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       //buy button disable counter variable
-      stockcounter: this.stock
+      stockcounter: this.stock,
+      imageslist: []
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {//make a list of all pictures of this product
+  },
   computed: {
     getImgUrl: function getImgUrl() {
       return "../pictures/" + this.image;
