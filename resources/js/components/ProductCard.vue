@@ -1,7 +1,10 @@
 <template>
     <div class="col-4">
         <form class="productcard" @submit.prevent="addToBasket">
-           
+            <slot>
+                <!--  csrf token from blade-->
+            </slot>
+
             <p>
                 <b>{{ this.description }}</b>
             </p>
@@ -39,27 +42,11 @@ export default {
         return {
             //buy button disable counter variable
             stockcounter: this.stock,
-            
         };
     },
 
     mounted: function () {
-        //counter and display reset
-        this.eventbus.$on("emptycart", () => {
-            this.reset();
-        });
-        this.eventbus.$on("stockdecrease", (product_id) => {
-            if (product_id == this.id) {
-                this.stockcounter -= 1;
-            }
-        });
-
-        this.eventbus.$on("stockincrease", (product_id) => {
-            if (product_id == this.id) {
-                this.stockcounter += 1;
-            }
-        });
-		     
+        
     },
 
     computed: {
@@ -72,20 +59,23 @@ export default {
         //write purchase data to browser session storage:
         addToBasket: function () {
             this.stockcounter -= 1;
-            let product = [this.id, this.price, this.stock, this.description];
-            this.eventbus.$emit("tocart", product);
+            
+            //experiment: axios call to server
+            axios({
+                method: "post",
+                url: `/cart/add/${this.id}`,
+                data: { 
+                    modifier:  1
+                }
+            })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(`error message says: ${error}`);
+                });
         },
-
-        /*
-		displayed stock will be reset to initial value
-		add-to-basket button will be enabled again
-		*/
-        reset() {
-            if (this.stockcounter < this.stock) {
-                this.stockcounter = this.stock;
-            }
-        },
-		
+        
     },
 };
 </script>
@@ -96,7 +86,7 @@ export default {
     padding: 0.5rem;
     border-style: solid;
     border-width: 1px;
-    border-color:orangered;
+    border-color: orangered;
     border-radius: 0.3rem;
     background-color: aquamarine;
 }

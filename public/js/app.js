@@ -5287,6 +5287,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "productcard",
   props: {
@@ -5302,24 +5305,7 @@ __webpack_require__.r(__webpack_exports__);
       stockcounter: this.stock
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    //counter and display reset
-    this.eventbus.$on("emptycart", function () {
-      _this.reset();
-    });
-    this.eventbus.$on("stockdecrease", function (product_id) {
-      if (product_id == _this.id) {
-        _this.stockcounter -= 1;
-      }
-    });
-    this.eventbus.$on("stockincrease", function (product_id) {
-      if (product_id == _this.id) {
-        _this.stockcounter += 1;
-      }
-    });
-  },
+  mounted: function mounted() {},
   computed: {
     getImgUrl: function getImgUrl() {
       return "../pictures/" + this.image;
@@ -5328,263 +5314,19 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     //write purchase data to browser session storage:
     addToBasket: function addToBasket() {
-      this.stockcounter -= 1;
-      var product = [this.id, this.price, this.stock, this.description];
-      this.eventbus.$emit("tocart", product);
-    },
+      this.stockcounter -= 1; //experiment: axios call to server
 
-    /*
-    displayed stock will be reset to initial value
-    add-to-basket button will be enabled again
-    */
-    reset: function reset() {
-      if (this.stockcounter < this.stock) {
-        this.stockcounter = this.stock;
-      }
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "shoppingcart",
-  props: {
-    csrf_token: String
-  },
-
-  /*
-  shopping cart data is stored in browser SessionStorage
-  for reactive displaying the Vue ShoppingCart component keeps its own, synchronized copy
-  */
-  data: function data() {
-    return {
-      sum: 0.0,
-      shoppinglist: {},
-      loggedin: 0 //referenced by makePurchase()S
-
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.eventbus.$on("tocart", function (product) {
-      _this.addToCart(product);
-    });
-    this.readSessionStorage();
-    this.loginCheck();
-    console.log("loggedin: ".concat(this.loggedin));
-  },
-  computed: {
-    getSum: function getSum() {
-      return Math.abs(this.sum).toFixed(2);
-    }
-  },
-  methods: {
-    addToCart: function addToCart(product) {
-      /*
-      shopping cart data is stored as a JSON string in browser Session Storage memory
-      {
-          id:         [count, price, stock, description],
-          next_id:    [count, price, stock, description],
-          ...
-      }
-      */
-      //data received from productcard
-      var id = product[0];
-      var price = product[1];
-      var stock = product[2];
-      var description = product[3];
-
-      if (sessionStorage.getItem("shoppingList") === null) {
-        var JsonShoppingList = {};
-        JsonShoppingList[id] = [1, price, stock, description];
-        sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
-      } else {
-        var _JsonShoppingList = JSON.parse(sessionStorage.getItem("shoppingList"));
-
-        if (_JsonShoppingList[id] === undefined) {
-          _JsonShoppingList[id] = [1, price, stock, description];
-        } else {
-          //avoid string concatenation
-          var number = parseInt(_JsonShoppingList[id][0]);
-          number = number + 1;
-          _JsonShoppingList[id][0] = number;
+      axios({
+        method: "post",
+        url: "/cart/add/".concat(this.id),
+        data: {
+          modifier: 1
         }
-
-        sessionStorage.setItem("shoppingList", JSON.stringify(_JsonShoppingList));
-      } //already a sum declared in session storage?
-
-
-      if (sessionStorage.getItem("sum") != null) {
-        var sum = parseFloat(sessionStorage.getItem("sum"));
-        sum = sum + price;
-        sessionStorage.setItem("sum", sum);
-      }
-
-      if (sessionStorage.getItem("sum") === null) {
-        sessionStorage.setItem("sum", price);
-      } //update displayed data
-
-
-      this.readSessionStorage();
-    },
-    increase: function increase(product_id, price) {
-      //retrieve data from sessionstorage
-      var JsonShoppingList = JSON.parse(sessionStorage.getItem("shoppingList"));
-      var thisproduct = JsonShoppingList[product_id];
-      var count = thisproduct[0];
-      var stock = thisproduct[2];
-
-      if (count < stock) {
-        count += 1; //update productcard stock, try an event $emit?
-
-        thisproduct[0] = count; //updated count
-
-        JsonShoppingList[product_id] = thisproduct;
-        sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
-        this.eventbus.$emit("stockdecrease", product_id);
-        var sum = parseFloat(sessionStorage.getItem("sum"));
-        sum = sum + price;
-        sessionStorage.setItem("sum", sum);
-      } //update displayed data
-
-
-      this.readSessionStorage();
-    },
-    decrease: function decrease(product_id, price) {
-      //retrieve data from sessionstorage
-      var JsonShoppingList = JSON.parse(sessionStorage.getItem("shoppingList"));
-      var thisproduct = JsonShoppingList[product_id];
-      var count = thisproduct[0];
-
-      if (count > 0) {
-        count -= 1; //update productcard stock, try an event $emit?
-
-        thisproduct[0] = count; //updated count
-
-        JsonShoppingList[product_id] = thisproduct;
-        sessionStorage.setItem("shoppingList", JSON.stringify(JsonShoppingList));
-        this.eventbus.$emit("stockincrease", product_id);
-        var sum = parseFloat(sessionStorage.getItem("sum"));
-        sum = sum - price;
-        sessionStorage.setItem("sum", sum);
-      } //update displayed data
-
-
-      this.readSessionStorage();
-    },
-    emptyCart: function emptyCart() {
-      sessionStorage.clear();
-      this.readSessionStorage(); //update ShoppingCart component
-
-      this.eventbus.$emit("emptycart");
-    },
-    //retrieve sum from browser's session storage
-    readSessionStorage: function readSessionStorage() {
-      //sum
-      if (sessionStorage.getItem("sum")) {
-        //if a not-empty string is returned
-        var sumstr = JSON.parse(sessionStorage.getItem("sum"));
-        var sumfloat = parseFloat(sumstr);
-        this.sum = sumfloat;
-      } else {
-        this.sum = 0.0;
-      } //selected items and their numbers
-
-
-      if (sessionStorage.getItem("shoppingList")) {
-        //if a not-empty string is returned
-        var templist = JSON.parse(sessionStorage.getItem("shoppingList"));
-        this.shoppinglist = templist;
-      } else {
-        this.shoppinglist = {};
-      }
-    },
-    loginCheck: function loginCheck() {
-      var _this2 = this;
-
-      //check if customer is logged in, before continuing with axios call
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        method: "get",
-        url: "/logged_in"
-      }) //arrow notation is crucial for using keyword 'this'
-      .then(function (response) {
-        _this2.loggedin = response.data;
+      }).then(function (response) {
+        console.log(response);
       })["catch"](function (error) {
-        console.log("error message says: ".concat(error));
+        alert("error message says: ".concat(error));
       });
-    },
-    makePurchase: function makePurchase() {
-      if (this.loggedin == 0) {
-        alert("please log in to make a purchase.");
-      }
-
-      if (this.loggedin == 1) {
-        //add sum to shoppinglistdata
-        var localsum = this.sum;
-        this.shoppinglist["sum"] = localsum; //check if customer is logged in, before continuing with axios call
-
-        axios__WEBPACK_IMPORTED_MODULE_0___default()({
-          method: "post",
-          url: "/order/store",
-          data: this.shoppinglist
-        }).then(function (response) {
-          console.log(response);
-        })["catch"](function (error) {
-          alert("error message says: ".concat(error));
-        }); //empty cart again
-
-        this.emptyCart();
-        alert("Thank you for making a purchase. You can view your order history on your personal page.");
-      }
     }
   }
 });
@@ -5601,10 +5343,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 Vue.component('productcard', (__webpack_require__(/*! ./components/ProductCard.vue */ "./resources/js/components/ProductCard.vue")["default"]));
-Vue.component('shoppingcart', (__webpack_require__(/*! ./components/ShoppingCart.vue */ "./resources/js/components/ShoppingCart.vue")["default"])); //communication between Vue components via eventbus Vue instance
-
-Vue.prototype.eventbus = new Vue(); //sibling vue component communication via eventbus Vue instance
-
 var app = new Vue({
   el: '#app'
 }); //devtools in browser
@@ -10694,31 +10432,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n    margin: 1rem;\n    padding: 0.5rem;\n    border-style: solid;\n    border-width: 1px;\n    border-color:orangered;\n    border-radius: 0.3rem;\n    background-color: aquamarine;\n}\nimg[data-v-1a457ff8] {\n    border-radius: 0.3rem;\n}\nbutton[data-v-1a457ff8] {\n    margin: 0.3rem;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.shoppingcart[data-v-c86466da] {\n    padding: 1rem;\n    margin: 1rem;\n    background-color: darkkhaki;\n    border-radius: 0.3rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n    margin: 1rem;\n    padding: 0.5rem;\n    border-style: solid;\n    border-width: 1px;\n    border-color: orangered;\n    border-radius: 0.3rem;\n    background-color: aquamarine;\n}\nimg[data-v-1a457ff8] {\n    border-radius: 0.3rem;\n}\nbutton[data-v-1a457ff8] {\n    margin: 0.3rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28250,36 +27964,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_style_index_0_id_c86466da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_style_index_0_id_c86466da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_style_index_0_id_c86466da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -28600,47 +28284,6 @@ component.options.__file = "resources/js/components/ProductCard.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/ShoppingCart.vue":
-/*!**************************************************!*\
-  !*** ./resources/js/components/ShoppingCart.vue ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true& */ "./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true&");
-/* harmony import */ var _ShoppingCart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShoppingCart.vue?vue&type=script&lang=js& */ "./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js&");
-/* harmony import */ var _ShoppingCart_vue_vue_type_style_index_0_id_c86466da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& */ "./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-;
-
-
-/* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _ShoppingCart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "c86466da",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ShoppingCart.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/components/ProductCard.vue?vue&type=script&lang=js&":
 /*!**************************************************************************!*\
   !*** ./resources/js/components/ProductCard.vue?vue&type=script&lang=js& ***!
@@ -28657,22 +28300,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShoppingCart.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/js/components/ProductCard.vue?vue&type=style&index=0&id=1a457ff8&scoped=true&lang=css&":
 /*!**********************************************************************************************************!*\
   !*** ./resources/js/components/ProductCard.vue?vue&type=style&index=0&id=1a457ff8&scoped=true&lang=css& ***!
@@ -28682,19 +28309,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCard_vue_vue_type_style_index_0_id_1a457ff8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProductCard.vue?vue&type=style&index=0&id=1a457ff8&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductCard.vue?vue&type=style&index=0&id=1a457ff8&scoped=true&lang=css&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&":
-/*!***********************************************************************************************************!*\
-  !*** ./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& ***!
-  \***********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_style_index_0_id_c86466da_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=style&index=0&id=c86466da&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -28712,23 +28326,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCard_vue_vue_type_template_id_1a457ff8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductCard_vue_vue_type_template_id_1a457ff8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProductCard.vue?vue&type=template&id=1a457ff8&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductCard.vue?vue&type=template&id=1a457ff8&scoped=true&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true&":
-/*!*********************************************************************************************!*\
-  !*** ./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true& ***!
-  \*********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShoppingCart_vue_vue_type_template_id_c86466da_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true&");
 
 
 /***/ }),
@@ -28762,6 +28359,8 @@ var render = function () {
         },
       },
       [
+        _vm._t("default"),
+        _vm._v(" "),
         _c("p", [_c("b", [_vm._v(_vm._s(this.description))])]),
         _vm._v(" "),
         _c("p", [_vm._v("Price: " + _vm._s(this.price))]),
@@ -28801,81 +28400,10 @@ var render = function () {
           { attrs: { type: "submit", disabled: !this.stockcounter } },
           [_vm._v("\n            🛒 add to cart\n        ")]
         ),
-      ]
+      ],
+      2
     ),
   ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true&":
-/*!************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ShoppingCart.vue?vue&type=template&id=c86466da&scoped=true& ***!
-  \************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "shoppingcart" },
-    [
-      _vm._t("default"),
-      _vm._v(" "),
-      _c("h1", [_vm._v("Shopping Cart")]),
-      _vm._v(" "),
-      _vm._l(_vm.shoppinglist, function (product_data, product_id) {
-        return _c("div", { key: product_id }, [
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  return _vm.increase(product_id, product_data[1])
-                },
-              },
-            },
-            [_c("b", [_vm._v("+")])]
-          ),
-          _vm._v("\n        " + _vm._s(product_data[0]) + "\n        "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  return _vm.decrease(product_id, product_data[1])
-                },
-              },
-            },
-            [_c("b", [_vm._v("-")])]
-          ),
-          _vm._v(" "),
-          _vm._v("\n        " + _vm._s(product_data[3]) + "\n    "),
-        ])
-      }),
-      _vm._v(" "),
-      _c("h2", [_vm._v("Sum: " + _vm._s(this.getSum))]),
-      _vm._v(" "),
-      _c("button", { on: { click: _vm.makePurchase } }, [_vm._v("Buy")]),
-      _vm._v(" "),
-      _c("button", { on: { click: _vm.emptyCart } }, [
-        _vm._v("Empty Shopping Cart"),
-      ]),
-    ],
-    2
-  )
 }
 var staticRenderFns = []
 render._withStripped = true

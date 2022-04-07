@@ -27,21 +27,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/order/show/{id}',              'OrderController@show',         'order.show'); //authentication check in method show
     Route::post('/order/store',                 'OrderController@store',        'order.store');        
 });
-Route::get('/shoppingcart', function(){
-    return view('shoppingcart');
-});
-
-//shopping cart references this route on "buy" event
-//Route::get('/logged_in','UserController@isLoggedIn', 'user.logged_in');
-//route referenced by shopping cart component on checkout
-Route::get('/logged_in',function(){
-    if(Auth::check()){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-});
 
 //user routes
 Route::middleware('auth')->group(function(){
@@ -52,6 +37,12 @@ Route::middleware('auth')->group(function(){
 //pictures retrieving route used by productcard Vue components
 Route::get('/pictures/{id}', 'PicturesController@getPictures', 'pictures.list');
 
+//server sided version shopping cart
+Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');    //adds 1 item to cart
+Route::get('/cart/edit',        'ShoppingCartController@create',    'cart.edit');   //returns a form with prefilled, editable data 
+Route::post('/cart/clear',      'ShoppingCartController@emptycart', 'cart.empty');
+Route::post('/cart/store',      'ShoppingCartController@store',     'cart.store');  //receives customer-updated version of cart data 
+Route::get('/cart',             'OrderController@create', 'order.new');             //view cart an address details, checkout link
 /**
  * fallback for not available or not existing routes
  */

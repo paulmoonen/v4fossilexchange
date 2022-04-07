@@ -19,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -29,7 +29,43 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+
+        $sum = session()->get('sum');
+        if(!$sum){ 
+            $sum = 0.00; 
+        }
+        $cartitems = session()->get('shoppingcart');
+        if(!$cartitems){ 
+            $cartitems = [];  //avoid display errors
+        }
+        
+        if(Auth::guest()){ // not logged in, no address data
+            $name = "You are currently not logged in.";
+            $street = "To place an order you need to log in as existing customer,";
+            $housenumber = "or register yourself as a new customer.";
+            $postal_code = "";
+            $city = "";
+            $country = "";
+        }
+        if(Auth::check()){ //logged in
+            $user = Auth::user();
+            $name = $user->name;
+            $street = $user->street;
+            $housenumber = $user->housenumber;
+            $postal_code = $user->postal_code;
+            $city = $user->city;
+            $country = $user->country;             
+        }
+        return view('/order/checkout', [
+            'sum'               => $sum,
+            'cartitems'         => $cartitems,
+            'name'              => $name,
+            'street'            => $street,
+            'housenumber'       => $housenumber,
+            'postal_code'       => $postal_code,
+            'city'              => $city,
+            'country'           => $country
+        ]);
     }
 
     /**
@@ -40,7 +76,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {   
-        
+        //an order record only has two fields: 'user_id' and 'date'
         $order = new Order([
             'user_id'   => Auth::user()->id,
             'date'      => now()
@@ -48,27 +84,21 @@ class OrderController extends Controller
         $order->save();
         $order_id = $order->id;         
 
+        $sum = session()->get('sum');
+        $shoppinglist =  session()->get('shoppingcart'); 
         /*
-        loop through data from $request
-        save order-product combinations
-        each item in request has the following layout:
-        key   => value   
-        product_id    => [count, price, stock, description]
-        'sum'         => sum ( float )               
-        */
-        //local variable, declared out here to avoid scope problems
-        $sum = 0.00;
-        $itemlist = $request->all();                
-        foreach( $itemlist as $key => $value ){
-            if($key != 'sum'){
+        data in session shopping cart:
+        product_id : [ count, price, stock, name, description ]
+        */  
+        foreach( $shoppinglist as $key => $value ){
 
                 $order_product = new OrderProduct([
                     'order_id'      => $order_id, 
-                    'product_id'    => $key,
-                    'amount'        => $value[0]             
+                    'product_id'    => $key,        //product_id
+                    'amount'        => $value[0]    //count             
                 ]);
-                $order_product->save();                           
-                
+                $order_product->save();
+                  
                 //decrease the stock in the products table    
                 $old_stock = intval($value[2]);
                 $number_sold = intval($value[0]);
@@ -76,12 +106,10 @@ class OrderController extends Controller
                 Product::where('id', intval($key))->update([
                     'stock' => $new_stock ]
                 );
-            }
-            if($key == 'sum'){$sum = $value;}
+                     
         }
         
         //create an invoice
-        //sum = $sum
         $username       = Auth::user()->name;
         $street         = Auth::user()->street;
         $housenumber    = Auth::user()->housenumber;
@@ -109,6 +137,11 @@ class OrderController extends Controller
             'created_by'        => 0//machine: any other user, e.g. admin, has an id > 0
         ]);
         $invoice->save();
+        //empty cart and go home
+        session()->forget('sum');
+        session()->forget('shoppingcart');
+        return redirect('/'); //home
+
     }
 
     /**
