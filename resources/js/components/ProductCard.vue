@@ -46,21 +46,7 @@ export default {
     },
 
     mounted: function () {
-        //counter and display reset
-        this.eventbus.$on("emptycart", () => {
-            this.reset();
-        });
-        this.eventbus.$on("stockdecrease", (product_id) => {
-            if (product_id == this.id) {
-                this.stockcounter -= 1;
-            }
-        });
-
-        this.eventbus.$on("stockincrease", (product_id) => {
-            if (product_id == this.id) {
-                this.stockcounter += 1;
-            }
-        });
+        
     },
 
     computed: {
@@ -73,9 +59,7 @@ export default {
         //write purchase data to browser session storage:
         addToBasket: function () {
             this.stockcounter -= 1;
-            let product = [this.id, this.price, this.stock, this.description];
-            this.eventbus.$emit("tocart", product);
-
+            
             //experiment: axios call to server
             axios({
                 method: "post",
@@ -91,16 +75,7 @@ export default {
                     alert(`error message says: ${error}`);
                 });
         },
-
-        /*
-		displayed stock will be reset to initial value
-		add-to-basket button will be enabled again
-		*/
-        reset() {
-            if (this.stockcounter < this.stock) {
-                this.stockcounter = this.stock;
-            }
-        },
+        
     },
 };
 </script>

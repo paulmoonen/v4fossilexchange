@@ -23,70 +23,17 @@
 
 <body>
     <div id="app">
-        <nav class="row">
 
-            <div class="col-2"></div>
-
-            <div class="col-8 header">
-                <a class="navbar-brand" href="/">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                @if(auth()->guest())
-                <p>You are currently not logged in</p>
-                <a href="/login">log in</a>
-                <br>
-                <a href="/register">register</a>
-                <br>
-                @endif
-
-                @if(auth()->check() )
-                <!-- either an admin or a customer is logged in -->
-
-                @if(Auth::user()->role == 2)
-                <p>Welcome back {{Auth::user()->name}}.</p>
-                <a href="/user/{{Auth::user()->id}}">My Personal Page</a>
-                <br>
-                <a href="/">Shop</a>
-                <br>
-                @endif
-
-                <!-- links for admin users -->
-                @if(Auth::user()->role == 1)
-                <a href="/admin">Admin work main page</a>
-                <br>
-                @endif
-
-                <!-- log out requires a proper form element with csrf token-->
-                <a href="/logout" onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                    log out
-                </a>
-
-                <form id="logout-form" action="/logout" method="POST" class="d-none">
-                    @csrf
-                </form>
-
-                @endif
-                <br>
-                <a href="/shoppingcart">Shopping Cart</a>
-                <br>
-                <a href="/cart">Experimental shopping cart</a>
-
-            </div>
-            <div class="col-2"></div>
-
-        </nav>
+        @include('layouts.header')
 
         <main class="py-4">
             @yield('content')
         </main>
 
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <h2 class="footer">Links and legal notices</h2>
-            </div>
-            <div class="col-2"></div>
+
+            @include('layouts.footer')
+
         </div>
     </div>
 </body>

@@ -34,7 +34,7 @@
 <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
-        <a href="/cart">change shopping cart content</a>
+        <a href="/cart/edit">change shopping cart content</a>
         <form action="/order/store" method="post">
             @csrf
             <input type="submit" value="buy">

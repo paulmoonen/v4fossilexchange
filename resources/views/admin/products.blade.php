@@ -8,12 +8,14 @@
     <div class="col-8">
         <label for="selectlist">Select a product to edit or delete</label>
         <div class="selectlist col-pt-4" id="selectlist">
-            <?php foreach ($products as $product) : ?>
-                <a href="/admin/product/edit/{{$product->id}}">price: {{$product->price}}
-                    description: {{$product->description}}
-                </a>
-                <br>
-            <?php endforeach ?>
+            <ul>
+                <?php foreach ($products as $product) : ?>
+                    <li>
+                    <a href="/admin/product/edit/{{$product->id}}">{{$product->name}}</a>
+                    <p>stock: {{$product->stock}}, price: {{$product->price}}, description: {{$product->description}}</p>
+                    </li>
+                <?php endforeach ?>
+            </ul>
         </div>
     </div>
 

@@ -22,7 +22,7 @@
         </form>
 
         <!-- purchase form -->
-        <a href="/order/create">Checkout</a>
+        <a href="/cart">Checkout</a>
 
         <!-- empty cart form -->
         <form action="/cart/clear" method="post">
