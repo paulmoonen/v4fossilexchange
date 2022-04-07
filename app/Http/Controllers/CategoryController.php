@@ -49,22 +49,22 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category   = Category::find( $id ); 
-        //$logged_in  = Auth::check(); 
-                        
+                                        
         $products = DB::table('products')
-            ->join('product_category', 'product_category.product_id', '=', 'products.id')  
+            ->join('product_category', 'product_category.product_id', '=', 'products.id')
+            ->join('originsites', 'originsites.id', '=', 'products.originsite')  
             ->select(   'products.price',
                         'products.stock',
                         'products.id',
                         'products.description',
-                        'products.picture')
+                        'originsites.site_name')
             ->where('product_category.category_id', $id)
             ->where('products.deleted_at', '=', null)
             ->get();
             
         return view('product/category', [
-            'products' => $products,
-            'category' => $category,             
+            'products'      => $products,
+            'category'      => $category,                        
         ]);
     }
 

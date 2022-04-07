@@ -15,8 +15,8 @@ class CreateOriginsitesTable extends Migration
     {
         Schema::create('originsites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('site_name');
+            $table->text('site_description')->nullable();
             $table->foreignId('country')->references('id')->on('countries');
             $table->timestamps();
             $table->softDeletes();

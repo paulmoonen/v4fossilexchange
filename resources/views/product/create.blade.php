@@ -38,10 +38,6 @@
             <label for="description">Description</label>
             <br>
 
-            <input type="text" name="picture" id="picturename"></input>
-            <label for="picturename">Picture name</label>
-            <br>
-
             <input type="text" name="name" id="name"></input>
             <label for="name">Product name</label>
             <br>
