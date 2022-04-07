@@ -23,6 +23,7 @@
         @if(Auth::user()->role == 2)
         <p>Welcome back {{Auth::user()->name}}.</p>
         <a href="/user/{{Auth::user()->id}}">My Personal Page</a>
+        <br>
         <a href="/">Shop</a>
         <br>
         @endif
