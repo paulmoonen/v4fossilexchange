@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/store',                 'OrderController@store',        'order.store');        
 });
 
-//user routes
+//user personal page: address details and order history
 Route::middleware('auth')->group(function(){
     Route::get('/user/{id}',                         'UserController@show',         'user.show');
 });

@@ -140,7 +140,8 @@ class OrderController extends Controller
         //empty cart and go home
         session()->forget('sum');
         session()->forget('shoppingcart');
-        return redirect('/'); //home
+        $user_id = Auth::user()->id;
+        return redirect("/user/$user_id"); //personal page including buy history
 
     }
 
