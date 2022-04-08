@@ -125,7 +125,6 @@ class ProductController extends Controller
             $product->stock         = $request->stock;
             $product->price         = $request->price;
             $product->description   = $request->description;
-            $product->picture       = $request->picture;
             $product->modified_by   = Auth::user()->id;
 
             $product->save();
