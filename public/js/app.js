@@ -5325,7 +5325,7 @@ __webpack_require__.r(__webpack_exports__);
       var pathlist = [];
       this.imageslist.forEach(function (record) {
         var name = record.name;
-        var image_src = "../pictures/" + name;
+        var image_src = "/storage/pictures/" + name;
         pathlist.push(image_src);
       });
       return pathlist;

@@ -71,7 +71,7 @@ export default {
             let pathlist = [];
             this.imageslist.forEach(function(record){
                 let name = record.name;
-                let image_src = "../pictures/" + name;
+                let image_src = "/storage/pictures/" + name;
                 pathlist.push(image_src);
             });
             return pathlist;

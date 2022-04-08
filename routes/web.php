@@ -10,16 +10,19 @@ Route::get('/home',                 'HomeController@index', 'home.named');
 
 Route::get('/category/{id}',        'CategoryController@show', 'category.selection');
 
-//product admin routes
+//admin routes
 Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('/',                       'AdminController@index',        'admin.home');
     
     Route::get('/product',                'ProductController@index',      'product.index');
     Route::get('/product/create',         'ProductController@create',     'product.create');    
-    Route::post('/product/store',         'ProductController@store',      'product.save'); //logged in user role is checked in store-method
+    Route::post('/product/store',         'ProductController@store',      'product.save'); //user role is checked in store-method
     Route::post('/product/update/{id}',   'ProductController@update',     'product.update');
     Route::get('/product/edit/{id}',      'ProductController@edit',       'product.edit');
     Route::get('/product/delete/{id}',    'ProductController@destroy',    'product.delete');
+
+    Route::get('/picture/create',          'PictureController@create',     'picture.create');
+    Route::post('/picture/store',          'PictureController@store',      'picture.store');
 });
 
 //order routes
@@ -35,7 +38,7 @@ Route::middleware('auth')->group(function(){
 });
 
 //pictures retrieving route used by productcard Vue components
-Route::get('/pictures/{id}', 'PicturesController@getPictures', 'pictures.list');
+Route::get('/pictures/{id}', 'PictureController@getPictures', 'pictures.list');
 
 //server sided version shopping cart
 Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');    //adds 1 item to cart

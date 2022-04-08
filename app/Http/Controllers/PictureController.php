@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
-class PicturesController extends Controller
+class PictureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +28,8 @@ class PicturesController extends Controller
      */
     public function create()
     {
-        //
+        //return form to upload new picture
+        return view('/admin/uploadpicture');
     }
 
     /**
@@ -35,7 +40,33 @@ class PicturesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /**
+         * location storage/app/public/pictures (where the uploaded files are saved)
+         * has a symbolic link to:
+         * public/storage/pictures/ ... ( this path can be referenced by <img/> src attribute )
+         * link created by command: php artisan storage:link
+         */
+        //check for user role
+        if (Auth::user()->role != 1){
+            return redirect('/pagenotfound');
+        }
+
+        if(Auth::user()->role == 1){
+
+            $newfilename = $request->filename;            
+            $picture = $request->file('picture');          
+
+            //save uploaded file
+            try{
+                Storage::putFileAs('/public/pictures', $picture, $newfilename);
+                return redirect('/admin/picture/create');  
+            }
+            catch(Exception $e){
+                return view('/admin/file_upload_error');
+            }         
+            
+        }  
+        
     }
 
     /**
