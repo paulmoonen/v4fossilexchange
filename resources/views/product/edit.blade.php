@@ -32,10 +32,6 @@
             <label for="image">Image filename</label>
             <br>
 
-            <img src="/pictures/{{$product->picture}}" width="100px" id="current_picture">
-            <label for="current_picture">Current Picture</label>
-            <br>
-
             <input type="submit" value="submit changes">
         </form>
 

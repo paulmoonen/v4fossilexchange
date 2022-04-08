@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
+use App\Models\Product;
+use App\Models\Picture;
+use App\Models\ProductPicture;
 
 class PictureController extends Controller
 {
@@ -28,8 +30,13 @@ class PictureController extends Controller
      */
     public function create()
     {
+        //list of products, to select one to which the uploaded image belongs
+        $products = Product::all();
+
         //return form to upload new picture
-        return view('/admin/uploadpicture');
+        return view('/admin/uploadpicture', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -40,7 +47,7 @@ class PictureController extends Controller
      */
     public function store(Request $request)
     {
-        /**
+         /**
          * location storage/app/public/pictures (where the uploaded files are saved)
          * has a symbolic link to:
          * public/storage/pictures/ ... ( this path can be referenced by <img/> src attribute )
@@ -54,16 +61,38 @@ class PictureController extends Controller
         if(Auth::user()->role == 1){
 
             $newfilename = $request->filename;            
-            $picture = $request->file('picture');          
+            $picture = $request->file('picture');
+            $selected_product = $request->product;         
 
             //save uploaded file
+            //link to appropriate product
             try{
                 Storage::putFileAs('/public/pictures', $picture, $newfilename);
-                return redirect('/admin/picture/create');  
+                
+                //save image name to database
+                $newpicture = new Picture([
+                    'name'          => $newfilename,
+                    'created_at'    => now(),
+                    'created_by'    => Auth::user()->id
+                ]);                
+                $newpicture ->save();
+                $newpicture_id = $newpicture->id;
+                
+                if($selected_product != 0){
+                    //update prouct_picture table
+                    $new_product_picture = new ProductPicture([
+                        'created_at'    => now(),
+                        'created_by'    => Auth::user()->id,
+                        'product_id'    => $selected_product,
+                        'picture_id'    => $newpicture_id
+                    ]);                    
+                    $new_product_picture->save();
+                }  
             }
             catch(Exception $e){
                 return view('/admin/file_upload_error');
-            }         
+            }    
+            return redirect('/admin/picture/create');     
             
         }  
         

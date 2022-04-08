@@ -10,6 +10,7 @@
         <p>The most likely cause of this error is the size of the selected file</p>
         <p>The uploaded file cannot be greater than 2Mb</p>
         <p>For the inquisitive reader: check your php.ini file and search for "upload_max_filesize"</p>
+        <p>And do not forget to include the filetype extension in the filename</p>
         <a href="/admin/picture/create">try a different picture</a>
     </div>
     
