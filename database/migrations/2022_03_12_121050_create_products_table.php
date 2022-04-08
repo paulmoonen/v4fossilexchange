@@ -20,7 +20,6 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->integer('stock');
             $table->foreignId('originsite')->references('id')->on('originsites');
-            $table->string('picture')->nullable();
             $table->timestamps();
             $table->tinyInteger('created_by');
             $table->tinyInteger('modified_by')->nullable();

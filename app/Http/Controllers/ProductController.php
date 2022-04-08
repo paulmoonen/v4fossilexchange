@@ -58,7 +58,6 @@ class ProductController extends Controller
                 'originsite'    => $request->originsite,
                 'created_at'    => now(),
                 'created_by'    => Auth::user()->id,
-                'picture'       => $request->picture,
                 'stock'         => $request->stock,
                 'price'         => $request->price,
                 'name'          => $request->name,

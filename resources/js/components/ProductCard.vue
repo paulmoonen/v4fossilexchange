@@ -10,15 +10,15 @@
             </p>
             <p>Price: {{ this.price }}</p>
             <p>Stock: {{ this.stockcounter }}</p>
-            <img
-                :src="this.getImgUrl"
-                alt="image"
-                class="img-fluid"
-                v-show="this.image"
-            />
+            
+            <img v-for="(image , index) in this.getImgPaths"
+                    :src="image"
+                    :key="index"
+                    alt="image"
+                    class="img-fluid"/>
 
-            <!-- only show an image element if there is an image -->
-            <span v-show="!this.image">No image available &#128248; </span>
+            <p>Found at: <b>{{this.site_name}}</b></p>
+
             <button type="submit" :disabled="!this.stockcounter">
                 &#128722; add to cart
             </button>
@@ -35,32 +35,54 @@ export default {
         description: String,
         price: Number,
         stock: Number,
-        image: String,
+        site_name: String                
     },
 
     data: function () {
         return {
             //buy button disable counter variable
             stockcounter: this.stock,
+            imageslist: [], 
+            
         };
     },
 
     mounted: function () {
+        //make a list of all pictures of this product
+        axios({
+                method: "get",
+                url: `/pictures/${this.id}`,
+                
+            })
+            .then(response => {
+                this.imageslist = response.data
+            })
+            .catch(function (error) {
+                alert(`error message says: ${error}`);
+            });   
         
     },
 
     computed: {
-        getImgUrl() {
-            return "../pictures/" + this.image;
-        },
+        
+        //turn picture filenames into usable filepaths
+        getImgPaths(){
+
+            let pathlist = [];
+            this.imageslist.forEach(function(record){
+                let name = record.name;
+                let image_src = "/storage/pictures/" + name;
+                pathlist.push(image_src);
+            });
+            return pathlist;
+        }
     },
 
     methods: {
-        //write purchase data to browser session storage:
+        //decrease counter and notify server
         addToBasket: function () {
             this.stockcounter -= 1;
             
-            //experiment: axios call to server
             axios({
                 method: "post",
                 url: `/cart/add/${this.id}`,
@@ -74,8 +96,7 @@ export default {
                 .catch(function (error) {
                     alert(`error message says: ${error}`);
                 });
-        },
-        
+        },        
     },
 };
 </script>
@@ -92,6 +113,7 @@ export default {
 }
 img {
     border-radius: 0.3rem;
+    margin: 0.3rem;
 }
 
 button {

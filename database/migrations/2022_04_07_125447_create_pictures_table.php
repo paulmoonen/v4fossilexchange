@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOriginsitesTable extends Migration
+class CreatePicturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateOriginsitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('originsites', function (Blueprint $table) {
+        Schema::create('pictures', function (Blueprint $table) {
             $table->id();
-            $table->string('site_name');
-            $table->text('site_description')->nullable();
-            $table->foreignId('country')->references('id')->on('countries');
             $table->timestamps();
-            $table->softDeletes();
-            $table->string('created_by');            
+            $table->string('name');
+            $table->integer('created_by');
+            $table->softdeletes();
         });
     }
 
@@ -31,6 +29,6 @@ class CreateOriginsitesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('originsites');
+        Schema::dropIfExists('pictures');
     }
 }

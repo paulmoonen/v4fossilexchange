@@ -5297,25 +5297,44 @@ __webpack_require__.r(__webpack_exports__);
     description: String,
     price: Number,
     stock: Number,
-    image: String
+    site_name: String
   },
   data: function data() {
     return {
       //buy button disable counter variable
-      stockcounter: this.stock
+      stockcounter: this.stock,
+      imageslist: []
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    //make a list of all pictures of this product
+    axios({
+      method: "get",
+      url: "/pictures/".concat(this.id)
+    }).then(function (response) {
+      _this.imageslist = response.data;
+    })["catch"](function (error) {
+      alert("error message says: ".concat(error));
+    });
+  },
   computed: {
-    getImgUrl: function getImgUrl() {
-      return "../pictures/" + this.image;
+    //turn picture filenames into usable filepaths
+    getImgPaths: function getImgPaths() {
+      var pathlist = [];
+      this.imageslist.forEach(function (record) {
+        var name = record.name;
+        var image_src = "/storage/pictures/" + name;
+        pathlist.push(image_src);
+      });
+      return pathlist;
     }
   },
   methods: {
-    //write purchase data to browser session storage:
+    //decrease counter and notify server
     addToBasket: function addToBasket() {
-      this.stockcounter -= 1; //experiment: axios call to server
-
+      this.stockcounter -= 1;
       axios({
         method: "post",
         url: "/cart/add/".concat(this.id),
@@ -10432,7 +10451,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n    margin: 1rem;\n    padding: 0.5rem;\n    border-style: solid;\n    border-width: 1px;\n    border-color: orangered;\n    border-radius: 0.3rem;\n    background-color: aquamarine;\n}\nimg[data-v-1a457ff8] {\n    border-radius: 0.3rem;\n}\nbutton[data-v-1a457ff8] {\n    margin: 0.3rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.productcard[data-v-1a457ff8] {\n    margin: 1rem;\n    padding: 0.5rem;\n    border-style: solid;\n    border-width: 1px;\n    border-color: orangered;\n    border-radius: 0.3rem;\n    background-color: aquamarine;\n}\nimg[data-v-1a457ff8] {\n    border-radius: 0.3rem;\n    margin: 0.3rem;\n}\nbutton[data-v-1a457ff8] {\n    margin: 0.3rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28367,33 +28386,18 @@ var render = function () {
         _vm._v(" "),
         _c("p", [_vm._v("Stock: " + _vm._s(this.stockcounter))]),
         _vm._v(" "),
-        _c("img", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: this.image,
-              expression: "this.image",
-            },
-          ],
-          staticClass: "img-fluid",
-          attrs: { src: this.getImgUrl, alt: "image" },
+        _vm._l(this.getImgPaths, function (image, index) {
+          return _c("img", {
+            key: index,
+            staticClass: "img-fluid",
+            attrs: { src: image, alt: "image" },
+          })
         }),
         _vm._v(" "),
-        _c(
-          "span",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !this.image,
-                expression: "!this.image",
-              },
-            ],
-          },
-          [_vm._v("No image available 📸 ")]
-        ),
+        _c("p", [
+          _vm._v("Found at: "),
+          _c("b", [_vm._v(_vm._s(this.site_name))]),
+        ]),
         _vm._v(" "),
         _c(
           "button",
