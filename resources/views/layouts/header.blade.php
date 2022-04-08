@@ -7,6 +7,8 @@
             {{ config('app.name', 'Laravel') }}
         </a>
         <br>
+        <a href="/">Shop</a>
+        <br>
         
         @if(auth()->guest())
         <p>You are currently not logged in</p>
@@ -22,8 +24,6 @@
             @if(Auth::user()->role == 2)
             <p>Welcome back {{Auth::user()->name}}.</p>
             <a href="/user/{{Auth::user()->id}}">My Personal Page</a>
-            <br>
-            <a href="/">Shop</a>
             <br>
             @endif
 
