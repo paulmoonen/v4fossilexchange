@@ -20,9 +20,9 @@ class ProductsTableSeeder extends Seeder
             'description'   => 'Ammonite fragment with distinct, fractal-like surface pattern',
             'price'         => 1.23,
             'stock'         => 3,
-            'created_by'    => 1,
+            'created_by'    => 0, //seeding
             'created_at'    => now(),
-            'modified_by'   => 0 //seeding    
+            'modified_by'   => 0  //seeding    
         ]);
 
         DB::table('products')->insert([
@@ -144,8 +144,6 @@ class ProductsTableSeeder extends Seeder
             'created_by'    => 1,
             'created_at'    => now(),
             'modified_by'   => 0    
-        ]);
-
-        
+        ]);        
     }
 }

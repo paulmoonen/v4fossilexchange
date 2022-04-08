@@ -23,8 +23,8 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * Show the checkout form
+     * 
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -69,7 +69,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new order
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -140,12 +140,13 @@ class OrderController extends Controller
         //empty cart and go home
         session()->forget('sum');
         session()->forget('shoppingcart');
-        return redirect('/'); //home
+        $user_id = Auth::user()->id;
+        return redirect("/user/$user_id"); //personal page including buy history
 
     }
 
     /**
-     * Display the specified resource.
+     * Display a specific order
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

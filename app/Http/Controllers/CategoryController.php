@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -41,7 +40,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Shows all products in the specified category
+     * provides data for Productcard Vue components
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

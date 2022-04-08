@@ -13,7 +13,7 @@
             <label for="origin">Select an origin site</label><br>
             <select name="originsite" id="origin">
                 <?php foreach ($originsites as $originsite) : ?>
-                    <option value="{{$originsite->id}}">{{$originsite->name}}</option>
+                    <option value="{{$originsite->id}}">{{$originsite->site_name}}</option>
                 <?php endforeach ?>
             </select><br><br>
             

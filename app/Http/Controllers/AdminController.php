@@ -3,25 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display admin work menu
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $products = DB::table('products')
-                ->select('id', 'price','stock', 'description')
-                ->where('products.deleted_at', NULL)
-                ->get();
-
-        return view('admin/home', [
-            'products'          => $products,            
-        ]);
+        return view('admin/home');
     }
 
     /**

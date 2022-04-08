@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Homepage
      *
      * @return \Illuminate\Http\Response
      */

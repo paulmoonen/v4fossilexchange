@@ -26,16 +26,13 @@
 
             <input type="text" name="description" id="description" value="{{$product->description}}">
             <label for="description">Description</label>
-            <br>
-
-            <input type="text" name="picture" id="image" value="{{$product->picture}}">
-            <label for="image">Image filename</label>
-            <br>
+            <br>            
 
             <input type="submit" value="submit changes">
         </form>
 
         <a href="/admin/product/delete/{{$product->id}}">Delete this product</a>
+        
     </div>
     <div class="col-2"></div>
 </div>

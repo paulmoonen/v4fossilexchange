@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of all products
+     * admin user can select one to edit
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,7 +31,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new prodct
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +47,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new product
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -94,7 +95,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the product edit form
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -110,7 +111,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * receives updated product information
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -124,7 +125,6 @@ class ProductController extends Controller
             $product->stock         = $request->stock;
             $product->price         = $request->price;
             $product->description   = $request->description;
-            $product->picture       = $request->picture;
             $product->modified_by   = Auth::user()->id;
 
             $product->save();
@@ -134,7 +134,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deletes an existing prouct
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
