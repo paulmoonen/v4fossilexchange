@@ -11,6 +11,9 @@
     <a href="/admin/product/create">Create new product</a>
     <br>
     <a href="/admin/product">Edit or delete existing product</a>
+    <br>
+    <a href="/admin/picture/create">Upload new picture</a>
+        
 </div>
 
 <div class="col-2"></div>

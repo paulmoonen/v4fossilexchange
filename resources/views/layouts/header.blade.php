@@ -31,9 +31,7 @@
         <!-- links for admin users -->
         @if(Auth::user()->role == 1)
         <a href="/admin">Admin work main page</a>
-        <br>
-        <a href="/admin/picture/create">upload new picture</a>
-        <br>
+        <br>        
         @endif
 
         <!-- log out requires a proper form element with csrf token-->
