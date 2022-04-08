@@ -70,7 +70,7 @@ class PicturesTableSeeder extends Seeder
         ]);
 
         DB::table('pictures')->insert([
-            'name'              => 'krijtroten.jpg',
+            'name'              => 'krijtrotsen.jpg',
             'created_by'        => 0 
         ]);
 
