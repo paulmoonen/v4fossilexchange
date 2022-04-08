@@ -28,9 +28,7 @@
             <br>
             <input type="submit" value="upload file">
 
-
         </form>
-
 
     </div>
     <div class="col-2"></div>

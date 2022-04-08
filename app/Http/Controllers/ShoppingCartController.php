@@ -18,7 +18,7 @@ class ShoppingCartController extends Controller
     }
 
     /**
-     * Show the content of the $_SESSION shopping cart 
+     * Show the content of the shopping cart 
      * in a form to allow adjusting quantities.
      *
      * @return \Illuminate\Http\Response
@@ -146,8 +146,7 @@ class ShoppingCartController extends Controller
             }
         }                    
 
-        //find price
-        
+        //find price        
         $price = $product->price;       
         //update sum, to be displayed to the customer
         $sum = session()->get('sum');

@@ -24,7 +24,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for uploading a new picture
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,7 +40,7 @@ class PictureController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly uploaded picture
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -53,6 +53,7 @@ class PictureController extends Controller
          * public/storage/pictures/ ... ( this path can be referenced by <img/> src attribute )
          * link created by command: php artisan storage:link
          */
+        
         //check for user role
         if (Auth::user()->role != 1){
             return redirect('/pagenotfound');

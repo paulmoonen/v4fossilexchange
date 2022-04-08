@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="row">
+
     <div class="col-2"></div>
 
     <!-- cart contents -->
@@ -12,7 +13,6 @@
             <?php foreach ($cartitems as $id => $cartitem) : ?>
 
                 <p>Count: {{$cartitem[0]}} description: {{$cartitem[4]}}</p>
-                
                 <br>
 
             <?php endforeach ?>
@@ -29,10 +29,15 @@
         <p>{{$city}}</p>
         <p>{{$country}}</p>
     </div>
+
     <div class="col-2"></div>
+
 </div>
+
 <div class="row">
+
     <div class="col-2"></div>
+
     <div class="col-8">
         <a href="/cart/edit">change shopping cart content</a>
         <form action="/order/store" method="post">
@@ -40,6 +45,8 @@
             <input type="submit" value="buy">
         </form>
     </div>
+
     <div class="col-2"></div>
+
 </div>
 @endsection

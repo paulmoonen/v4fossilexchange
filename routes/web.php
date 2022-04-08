@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/',                     'HomeController@index', 'home.index');
-Route::get('/home',                 'HomeController@index', 'home.named');
 
+//see all products in a specific category
 Route::get('/category/{id}',        'CategoryController@show', 'category.selection');
 
 //admin routes
@@ -40,12 +40,13 @@ Route::middleware('auth')->group(function(){
 //pictures retrieving route used by productcard Vue components
 Route::get('/pictures/{id}', 'PictureController@getPictures', 'pictures.list');
 
-//server sided version shopping cart
+//server sided shopping cart
 Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');    //adds 1 item to cart
 Route::get('/cart/edit',        'ShoppingCartController@create',    'cart.edit');   //returns a form with prefilled, editable data 
 Route::post('/cart/clear',      'ShoppingCartController@emptycart', 'cart.empty');
 Route::post('/cart/store',      'ShoppingCartController@store',     'cart.store');  //receives customer-updated version of cart data 
 Route::get('/cart',             'OrderController@create', 'order.new');             //view cart an address details, checkout link
+
 /**
  * fallback for not available or not existing routes
  */
