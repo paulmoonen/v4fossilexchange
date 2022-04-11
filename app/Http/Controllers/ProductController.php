@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Originsite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class ProductController extends Controller
@@ -156,14 +157,35 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response 
      */
     public function subset(Request $request){
-
-        $product_id     = $request['product_id'];
-        $origin         = $request['origin'];
-        $category       = $request['category'];
-        ddd("id: $product_id origin: $origin category: $category");
-
-        //return a list, no redirect
+        
+        $subset = [];
+        //read from json version of sent data
+        $product_id     = (int)$request->json('product_id');
+        $origin         = $request->json('origin');
+        $category       = $request->json('category');
+    
+        //return("product: $product_id, origin: $origin, category: $category");
+        if($product_id != 0){
+            try{
+                $product = Product::findOrFail($product_id);
+                array_push($subset, $product);
+                return $subset;
+            }
+            catch(ModelNotFoundexception $e){
+                //do something with $e, or simply continue
+            }
+        }
+        else{ //no, or not valid, product id
+            $subset = DB::table('products')
+                ->join('product_category', 'product_category.product_id', '=', 'products.id')
+                ->join('categories', 'product_category.category_id', '=', 'categories.id')
+                ->join('originsites', 'originsites.id', '=', 'products.originsite')
+                ->select('products.id', 'products.name', 'products.description')
+                ->where('categories.name', '=', $category, 'AND', 'originsites.site_name', '=', $origin)
+                ->get();
+        }
          
+        return $subset; 
 
     }
 }

@@ -38,9 +38,7 @@
         </form>
 
         <!-- list of subset of products that match search criteria -->
-        <!-- made with function listSubset under computed -->
-
-
+        
     </div>
 </template>
 
@@ -114,18 +112,27 @@ export default {
 
     methods: {
         findProducts: function(){
+
+            let responsedata = [];
              
-            console.log(`category: ${this.category}, origin: ${this.origin}, ID: ${this.product_id}`);
             //axios call to /admin/product/subset
-            
             axios({
                 method: "post",
-                url: "/admin/product/subset"
+                url: "/admin/product/subset",
+                data:{
+                    category: this.category,
+                    origin: this.origin,
+                    product_id: this.product_id
+                }
             })
-            .then((response)=>{
-                subset = response.data;
+            .then(response => {
+                
+                this.subset = response.data; //why does this not work?
+                console.log(response.data);
             })
-            .catch();
+            .catch(function (error) {
+                    alert(`error message says: ${error}`);
+            });
             
 
         }

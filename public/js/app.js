@@ -5407,8 +5407,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "adminproductsearchfield",
   props: {},
@@ -5472,14 +5470,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     findProducts: function findProducts() {
-      console.log("category: ".concat(this.category, ", origin: ").concat(this.origin, ", ID: ").concat(this.product_id)); //axios call to /admin/product/subset
+      var _this2 = this;
+
+      var responsedata = []; //axios call to /admin/product/subset
 
       axios({
         method: "post",
-        url: "/admin/product/subset"
+        url: "/admin/product/subset",
+        data: {
+          category: this.category,
+          origin: this.origin,
+          product_id: this.product_id
+        }
       }).then(function (response) {
-        subset = response.data;
-      })["catch"]();
+        _this2.subset = response.data; //why does this not work?
+
+        console.log(response.data);
+      })["catch"](function (error) {
+        alert("error message says: ".concat(error));
+      });
     }
   }
 });
