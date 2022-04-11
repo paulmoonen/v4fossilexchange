@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
-use Illuminate\Support\Facades\DB;
+use App\Models\Originsite;
 
-class CategoryController extends Controller
+class OriginsitesController extends Controller
 {
     /**
-     * returns a list of all productcategories
+     * returns a list of all originsites
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $categories_list = Category::all('name');
-        return $categories_list;
+        return Originsite::all('site_name'); 
     }
 
     /**
@@ -41,32 +39,14 @@ class CategoryController extends Controller
     }
 
     /**
-     * Shows all products in the specified category
-     * provides data for Productcard Vue components
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $category   = Category::find( $id ); 
-                                        
-        $products = DB::table('products')
-            ->join('product_category', 'product_category.product_id', '=', 'products.id')
-            ->join('originsites', 'originsites.id', '=', 'products.originsite')  
-            ->select(   'products.price',
-                        'products.stock',
-                        'products.id',
-                        'products.description',
-                        'originsites.site_name')
-            ->where('product_category.category_id', $id)
-            ->where('products.deleted_at', '=', null)
-            ->get();
-            
-        return view('product/category', [
-            'products'      => $products,
-            'category'      => $category,                        
-        ]);
+        //
     }
 
     /**

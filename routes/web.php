@@ -26,6 +26,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     Route::get('/picture/create',          'PictureController@create',     'picture.create');
     Route::post('/picture/store',          'PictureController@store',      'picture.store');
+
+    //admin product select page requires lists of all categories and originsites
+    Route::get('/categories',              'CategoryController@index',   'categories.index');
+    Route::get('/originsites',             'OriginsitesController@index',  'originsites.index');
 });
 
 //order routes

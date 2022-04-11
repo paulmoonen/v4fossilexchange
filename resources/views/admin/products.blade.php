@@ -7,6 +7,7 @@
 
     <div class="col-8">
         <!-- search fields Vue component will go here -->
+        <adminproductsearchfield></adminproductsearchfield>
         <label for="selectlist">Select a product to edit or delete</label>
         <div class="selectlist col-pt-4" id="selectlist">
             <ul>

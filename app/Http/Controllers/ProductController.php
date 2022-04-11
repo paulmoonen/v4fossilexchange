@@ -148,4 +148,30 @@ class ProductController extends Controller
         return redirect('/admin');  
         
     }
+
+    /**
+     * list of id's of all available products
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function list_available_products(){
+        $list = DB::table('products')
+                ->where('deleted_at', null)
+                ->select('id')
+                ->get();
+        return $list;
+    }
+
+    /**
+     * list of id's of all deleted products
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function list_deleted_products(){
+        $list = DB::table('products')
+                ->where('deleted_at', !null)
+                ->select('id')
+                ->get();
+        return $list;
+    }
 }
