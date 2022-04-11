@@ -5403,14 +5403,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "adminproductsearchfield",
   props: {},
   data: function data() {
     return {
       categories: [],
+      //all possible categories
       originsites: [],
-      product_id_numbers: []
+      //all possible originsites
+      category: "unknown",
+      //data from category selection field
+      origin: "unknown",
+      //data from origin site selection field
+      product_id: 0,
+      //data from product id selection field
+      subset: [] //all products that match the search criteria
+
     };
   },
   mounted: function mounted() {
@@ -5436,7 +5451,7 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   computed: {
-    //urn arrays of objects into more practical arrays of strings, for v-for displaying
+    //turn arrays of objects into more practical arrays of strings, for v-for displaying
     //displayable array of categories name strings
     getCategoriesList: function getCategoriesList() {
       var list = [];
@@ -5452,10 +5467,20 @@ __webpack_require__.r(__webpack_exports__);
         list.push(record.site_name);
       });
       return list;
-    }
+    } //display a list of the found subset of products
+
   },
   methods: {
-    findProducts: function findProducts() {}
+    findProducts: function findProducts() {
+      console.log("category: ".concat(this.category, ", origin: ").concat(this.origin, ", ID: ").concat(this.product_id)); //axios call to /admin/product/subset
+
+      axios({
+        method: "post",
+        url: "/admin/product/subset"
+      }).then(function (response) {
+        subset = response.data;
+      })["catch"]();
+    }
   }
 });
 
@@ -28627,11 +28652,37 @@ var render = function () {
         },
       },
       [
+        _vm._t("default"),
+        _vm._v(" "),
         _c("h2", [_vm._v("Admin Product Searchfield")]),
         _vm._v(" "),
         _c(
           "select",
-          { attrs: { name: "ctegory", id: "category" } },
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.category,
+                expression: "category",
+              },
+            ],
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.category = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+            },
+          },
           _vm._l(this.getCategoriesList, function (category, index) {
             return _c("option", { key: index, domProps: { value: category } }, [
               _vm._v(
@@ -28650,13 +28701,35 @@ var render = function () {
         _vm._v(" "),
         _c(
           "select",
-          { attrs: { name: "origin", id: "origin" } },
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.origin,
+                expression: "origin",
+              },
+            ],
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.origin = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+            },
+          },
           _vm._l(this.getSitesList, function (origin, index) {
-            return _c(
-              "option",
-              { key: index, domProps: { value: _vm.category } },
-              [_vm._v("\n                " + _vm._s(origin) + "\n            ")]
-            )
+            return _c("option", { key: index, domProps: { value: origin } }, [
+              _vm._v("\n                " + _vm._s(origin) + "\n            "),
+            ])
           }),
           0
         ),
@@ -28668,7 +28741,24 @@ var render = function () {
         _c("br"),
         _vm._v(" "),
         _c("input", {
-          attrs: { type: "number", min: "1", step: "1", id: "product_id" },
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.product_id,
+              expression: "product_id",
+            },
+          ],
+          attrs: { type: "number", value: "0", min: "0", step: "1" },
+          domProps: { value: _vm.product_id },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.product_id = $event.target.value
+            },
+          },
         }),
         _vm._v(" "),
         _c("label", { attrs: { for: "product_id" } }, [
@@ -28678,7 +28768,8 @@ var render = function () {
         _c("br"),
         _vm._v(" "),
         _c("input", { attrs: { type: "submit", value: "search" } }),
-      ]
+      ],
+      2
     ),
   ])
 }

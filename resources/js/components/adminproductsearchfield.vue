@@ -1,9 +1,12 @@
 <template>
     <div class="single_element_in_template">
         <form class="adminproductsearch" @submit.prevent="findProducts">
+        <slot>
+            <!-- csrf token slot-->
+        </slot>
             <h2>Admin Product Searchfield</h2>
 
-            <select name="ctegory" id="category">
+            <select v-model="category">
                 <option
                     v-for="(category, index) in this.getCategoriesList"
                     :key="index"
@@ -15,11 +18,11 @@
             <label for="category">select category</label>
             <br />
 
-            <select name="origin" id="origin">
+            <select v-model="origin">
                 <option
                     v-for="(origin, index) in this.getSitesList"
                     :key="index"
-                    :value="category"
+                    :value="origin"
                 >
                     {{ origin }}
                 </option>
@@ -27,12 +30,15 @@
             <label for="origin">select origin site</label>
             <br />
 
-            <input type="number" min="1" step="1" id="product_id" />
+            <input type="number" value="0" min="0" step="1" v-model="product_id"/>
             <label for="product_id">if known: fill in the product id</label>
             <br />
 
             <input type="submit" value="search" />
         </form>
+
+        <!-- list of subset of products that match search criteria -->
+        <!-- made with function listSubset under computed -->
 
 
     </div>
@@ -46,9 +52,12 @@ export default {
 
     data: function () {
         return {
-            categories: [],
-            originsites: [],
-            product_id_numbers: [],
+            categories: [],         //all possible categories
+            originsites: [],        //all possible originsites
+            category: "unknown",    //data from category selection field
+            origin: "unknown",      //data from origin site selection field
+            product_id: 0,          //data from product id selection field
+            subset: []              //all products that match the search criteria
         };
     },
 
@@ -79,7 +88,7 @@ export default {
     },
 
     computed: {
-        //urn arrays of objects into more practical arrays of strings, for v-for displaying
+        //turn arrays of objects into more practical arrays of strings, for v-for displaying
 
         //displayable array of categories name strings
         getCategoriesList() {
@@ -98,11 +107,27 @@ export default {
             });
             return list;
         },
+
+        //display a list of the found subset of products
+
     },
 
     methods: {
         findProducts: function(){
+             
+            console.log(`category: ${this.category}, origin: ${this.origin}, ID: ${this.product_id}`);
+            //axios call to /admin/product/subset
             
+            axios({
+                method: "post",
+                url: "/admin/product/subset"
+            })
+            .then((response)=>{
+                subset = response.data;
+            })
+            .catch();
+            
+
         }
     },
 };

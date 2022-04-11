@@ -150,28 +150,20 @@ class ProductController extends Controller
     }
 
     /**
-     * list of id's of all available products
+     * returns the set of products that match the search criteria
      * 
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response 
      */
-    public function list_available_products(){
-        $list = DB::table('products')
-                ->where('deleted_at', null)
-                ->select('id')
-                ->get();
-        return $list;
-    }
+    public function subset(Request $request){
 
-    /**
-     * list of id's of all deleted products
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function list_deleted_products(){
-        $list = DB::table('products')
-                ->where('deleted_at', !null)
-                ->select('id')
-                ->get();
-        return $list;
+        $product_id     = $request['product_id'];
+        $origin         = $request['origin'];
+        $category       = $request['category'];
+        ddd("id: $product_id origin: $origin category: $category");
+
+        //return a list, no redirect
+         
+
     }
 }

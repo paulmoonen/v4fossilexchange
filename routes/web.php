@@ -23,6 +23,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::post('/product/update/{id}',   'ProductController@update',     'product.update');
     Route::get('/product/edit/{id}',      'ProductController@edit',       'product.edit');
     Route::get('/product/delete/{id}',    'ProductController@destroy',    'product.delete');
+    Route::post('/product/subset',        'ProductController@subset',     'product.subset');
 
     Route::get('/picture/create',          'PictureController@create',     'picture.create');
     Route::post('/picture/store',          'PictureController@store',      'picture.store');
