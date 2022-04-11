@@ -15,6 +15,14 @@ class OriginsitesTableSeeder extends Seeder
     public function run()
     {
         DB::table('originsites')->insert([
+            'site_name'             => "no geological site of origin applies to this product itself",
+            'site_description'      => "This product may not be a fossil or anything geological, or the origin site is unknown.",
+            'country'               => 5,
+            'created_at'            => now(),
+            'created_by'            => 1
+        ]);
+
+        DB::table('originsites')->insert([
             'site_name'             => "Piesberg, Osnabrück",
             'site_description'      => "A huge open air mine. Visitors are welcome to recreate around the mine and climb the hill. On top of the hill the mining company regularly deposits a pile of slate debris which is rich in plant fossils, like fern or ginko trea leafs.",
             'country'               => 5,

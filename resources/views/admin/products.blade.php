@@ -6,6 +6,7 @@
     <div class="col-2"></div>
 
     <div class="col-8">
+        <!-- search fields Vue component will go here -->
         <label for="selectlist">Select a product to edit or delete</label>
         <div class="selectlist col-pt-4" id="selectlist">
             <ul>
