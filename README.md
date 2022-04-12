@@ -20,4 +20,10 @@ to fill database with dummy data, run commands:
         php artisan db:seed
 
 boot up a local server with command php artisan serve
+
+the database already contains two user accounts to get started:
+        admin@fossilexchange.nl
+        client@fossilexchange.nl
+
+both have password "mypassword" 
 </pre>
