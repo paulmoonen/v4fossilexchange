@@ -36,5 +36,12 @@ class CountriesTableSeeder extends Seeder
             'name'          => "Germany",
             'description'   => ''
         ]);
+
+        DB::table('countries')->insert([
+            'name'          => "No country",
+            'description'   => ''
+        ]);
+
+
     }
 }

@@ -17,7 +17,7 @@ class OriginsitesTableSeeder extends Seeder
         DB::table('originsites')->insert([
             'site_name'             => "no geological site of origin applies to this product itself",
             'site_description'      => "This product may not be a fossil or anything geological, or the origin site is unknown.",
-            'country'               => 5,
+            'country'               => 6, //no country
             'created_at'            => now(),
             'created_by'            => 1
         ]);

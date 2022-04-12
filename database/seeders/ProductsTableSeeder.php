@@ -16,10 +16,10 @@ class ProductsTableSeeder extends Seeder
     {
         DB::table('products')->insert([
             'name'          => 'ammonite',
-            'originsite'    => 3,
+            'originsite'    => 4,
             'description'   => 'Ammonite fragment with distinct, fractal-like surface pattern',
             'price'         => 1.23,
-            'stock'         => 3,
+            'stock'         => 4,
             'created_by'    => 0, //seeding
             'created_at'    => now(),
             'modified_by'   => 0  //seeding    
@@ -27,7 +27,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'ammonite',
-            'originsite'    => 3,
+            'originsite'    => 4,
             'description'   => 'Ammonite fragment with distinct radial surface ribs',
             'price'         => 2.00,
             'stock'         => 5,
@@ -38,7 +38,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'ammonite',
-            'originsite'    => 3,
+            'originsite'    => 4,
             'description'   => 'Ammonite, worn surface',
             'price'         => 3.25,
             'stock'         => 3,
@@ -49,7 +49,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'brachiopod',
-            'originsite'    => 2,
+            'originsite'    => 3,
             'description'   => 'Brachiopods with smooth, undulating edges',
             'price'         => 1.23,
             'stock'         => 10,
@@ -60,7 +60,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'brachiopod',
-            'originsite'    => 2,
+            'originsite'    => 3,
             'description'   => 'Brachiopods with surface ribs',
             'price'         => 1.32,
             'stock'         => 12,
@@ -71,7 +71,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'brachiopod',
-            'originsite'    => 4,
+            'originsite'    => 5,
             'description'   => 'Brachiopods from white chalk rock',
             'price'         => 1.35,
             'stock'         => 5,
@@ -82,7 +82,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'brachiopod',
-            'originsite'    => 5,
+            'originsite'    => 6,
             'description'   => 'Single Brachiopod shell, the Dutch call this suikerschepje (sugar spoon )',
             'price'         => 1.00,
             'stock'         => 1,
@@ -93,7 +93,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'plant',
-            'originsite'    => 1,
+            'originsite'    => 2,
             'description'   => 'Fern fossil in slate rock',
             'price'         => 1.00,
             'stock'         => 3,
@@ -104,7 +104,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'plant',
-            'originsite'    => 1,
+            'originsite'    => 2,
             'description'   => 'Fern fossil in slate rock',
             'price'         => 1.00,
             'stock'         => 3,
@@ -115,7 +115,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'plant',
-            'originsite'    => 1,
+            'originsite'    => 2,
             'description'   => 'Fern fossil in slate rock',
             'price'         => 1.00,
             'stock'         => 3,
@@ -126,7 +126,7 @@ class ProductsTableSeeder extends Seeder
 
         DB::table('products')->insert([
             'name'          => 'sea urchin',
-            'originsite'    => 6,
+            'originsite'    => 7,
             'description'   => 'Sea urchin fragment in white chalk rock',
             'price'         => 1.00,
             'stock'         => 3,

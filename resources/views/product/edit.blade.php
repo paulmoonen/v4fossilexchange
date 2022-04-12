@@ -26,12 +26,13 @@
 
             <input type="text" name="description" id="description" value="{{$product->description}}">
             <label for="description">Description</label>
-            <br>            
+            <br>    
+            
+            <a href="/admin/product/delete/{{$product->id}}">Delete this product</a>
+            <br>
 
             <input type="submit" value="submit changes">
-        </form>
-
-        <a href="/admin/product/delete/{{$product->id}}">Delete this product</a>
+        </form>       
         
     </div>
     <div class="col-2"></div>

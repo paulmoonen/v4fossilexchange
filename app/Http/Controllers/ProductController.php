@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Originsite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class ProductController extends Controller
@@ -147,5 +148,32 @@ class ProductController extends Controller
         
         return redirect('/admin');  
         
+    }
+
+    /**
+     * returns the set of products that match the search criteria
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response 
+     */
+    public function subset(Request $request){
+               
+        //read from json version of sent data
+        $origin         = $request->json('origin');
+        $category       = $request->json('category');
+        
+        //some good old SQL querying to save the day,
+        //because Laravel facades can only do so much
+        $subset = DB::select(
+            "SELECT products.id, products.name, products.description FROM `products`
+            JOIN product_category ON product_category.product_id = products.id
+            JOIN categories ON categories.id = product_category.category_id
+            JOIN originsites ON originsites.id = products.originsite
+            WHERE categories.name = '$category'
+            AND originsites.site_name = '$origin'"
+        );     
+         
+        return $subset; 
+
     }
 }
