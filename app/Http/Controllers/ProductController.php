@@ -157,33 +157,21 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response 
      */
     public function subset(Request $request){
-        
-        $subset = [];
+               
         //read from json version of sent data
-        $product_id     = (int)$request->json('product_id');
         $origin         = $request->json('origin');
         $category       = $request->json('category');
-    
-        //return("product: $product_id, origin: $origin, category: $category");
-        if($product_id != 0){
-            try{
-                $product = Product::findOrFail($product_id);
-                array_push($subset, $product);
-                return $subset;
-            }
-            catch(ModelNotFoundexception $e){
-                //do something with $e, or simply continue
-            }
-        }
-        else{ //no, or not valid, product id
-            $subset = DB::table('products')
-                ->join('product_category', 'product_category.product_id', '=', 'products.id')
-                ->join('categories', 'product_category.category_id', '=', 'categories.id')
-                ->join('originsites', 'originsites.id', '=', 'products.originsite')
-                ->select('products.id', 'products.name', 'products.description')
-                ->where('categories.name', '=', $category, 'AND', 'originsites.site_name', '=', $origin)
-                ->get();
-        }
+        
+        //some good old SQL querying to save the day,
+        //because Laravel facades can only do so much
+        $subset = DB::select(
+            "SELECT products.id, products.name, products.description FROM `products`
+            JOIN product_category ON product_category.product_id = products.id
+            JOIN categories ON categories.id = product_category.category_id
+            JOIN originsites ON originsites.id = products.originsite
+            WHERE categories.name = '$category'
+            AND originsites.site_name = '$origin'"
+        );     
          
         return $subset; 
 

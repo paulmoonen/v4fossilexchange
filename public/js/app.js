@@ -5407,6 +5407,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "adminproductsearchfield",
   props: {},
@@ -5418,11 +5422,7 @@ __webpack_require__.r(__webpack_exports__);
       //all possible originsites
       category: "unknown",
       //data from category selection field
-      origin: "unknown",
-      //data from origin site selection field
-      product_id: 0,
-      //data from product id selection field
-      subset: [] //all products that match the search criteria
+      origin: "unknown" //data from origin site selection field
 
     };
   },
@@ -5465,29 +5465,35 @@ __webpack_require__.r(__webpack_exports__);
         list.push(record.site_name);
       });
       return list;
-    } //display a list of the found subset of products
+    },
+    //display a list of the found subset of products
+    getSelection: function getSelection() {
+      var selection = this.$root.$data; //add an url string for easy rerouting
 
+      var subset = selection.subset;
+      subset.forEach(function (element) {
+        element.edit_url = "/admin/product/edit/".concat(element.id);
+      });
+      return selection.subset;
+    }
   },
   methods: {
-    findProducts: function findProducts() {
+    //send a query for products that match the criteria
+    sendQuery: function sendQuery() {
       var _this2 = this;
-
-      var responsedata = []; //axios call to /admin/product/subset
 
       axios({
         method: "post",
         url: "/admin/product/subset",
         data: {
-          category: this.category,
           origin: this.origin,
-          product_id: this.product_id
+          category: this.category
         }
       }).then(function (response) {
-        _this2.subset = response.data; //why does this not work?
-
-        console.log(response.data);
+        //root reference works fine from here, in contrast to 'this'
+        _this2.$root.$data.subset = response.data;
       })["catch"](function (error) {
-        alert("error message says: ".concat(error));
+        console.log(error);
       });
     }
   }
@@ -5507,7 +5513,11 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 Vue.component('productcard', (__webpack_require__(/*! ./components/ProductCard.vue */ "./resources/js/components/ProductCard.vue")["default"]));
 Vue.component('adminproductsearchfield', (__webpack_require__(/*! ./components/adminproductsearchfield.vue */ "./resources/js/components/adminproductsearchfield.vue")["default"]));
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: {
+    subset: [] //stores a selection of products, used by adminproductsearchfield.vue 
+
+  }
 }); //devtools in browser
 
 Vue.config.devtools = true;
@@ -28650,16 +28660,8 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "single_element_in_template" }, [
     _c(
-      "form",
-      {
-        staticClass: "adminproductsearch",
-        on: {
-          submit: function ($event) {
-            $event.preventDefault()
-            return _vm.findProducts.apply(null, arguments)
-          },
-        },
-      },
+      "div",
+      { staticClass: "adminproductsearch" },
       [
         _vm._t("default"),
         _vm._v(" "),
@@ -28749,36 +28751,33 @@ var render = function () {
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.product_id,
-              expression: "product_id",
-            },
-          ],
-          attrs: { type: "number", value: "0", min: "0", step: "1" },
-          domProps: { value: _vm.product_id },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.product_id = $event.target.value
-            },
-          },
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "product_id" } }, [
-          _vm._v("if known: fill in the product id"),
-        ]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "submit", value: "search" } }),
+        _c("button", { on: { click: _vm.sendQuery } }, [_vm._v("Search")]),
       ],
       2
+    ),
+    _vm._v(" "),
+    _c(
+      "ul",
+      _vm._l(this.getSelection, function (item, index) {
+        return _c("li", { key: index }, [
+          _c("a", { attrs: { href: item.edit_url } }, [
+            _vm._v("Edit product " + _vm._s(item.id)),
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                name: " +
+                _vm._s(item.name) +
+                " description:\n                " +
+                _vm._s(item.description) +
+                " route: " +
+                _vm._s(item.editroute) +
+                "\n            "
+            ),
+          ]),
+        ])
+      }),
+      0
     ),
   ])
 }

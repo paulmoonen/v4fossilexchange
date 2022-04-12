@@ -8,6 +8,9 @@ Vue.component('adminproductsearchfield', require('./components/adminproductsearc
 
 const app = new Vue({
     el: '#app',
+    data:{
+        subset: [] //stores a selection of products, used by adminproductsearchfield.vue 
+    }
 });
 
 //devtools in browser

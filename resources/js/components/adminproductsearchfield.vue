@@ -1,9 +1,9 @@
 <template>
     <div class="single_element_in_template">
-        <form class="adminproductsearch" @submit.prevent="findProducts">
-        <slot>
-            <!-- csrf token slot-->
-        </slot>
+        <div class="adminproductsearch">
+            <slot>
+                <!-- csrf token slot-->
+            </slot>
             <h2>Admin Product Searchfield</h2>
 
             <select v-model="category">
@@ -30,15 +30,19 @@
             <label for="origin">select origin site</label>
             <br />
 
-            <input type="number" value="0" min="0" step="1" v-model="product_id"/>
-            <label for="product_id">if known: fill in the product id</label>
-            <br />
-
-            <input type="submit" value="search" />
-        </form>
+            <button v-on:click="sendQuery">Search</button>
+        </div>
 
         <!-- list of subset of products that match search criteria -->
-        
+        <ul>
+            <li v-for="(item, index) in this.getSelection" :key="index">
+                <a :href="item.edit_url">Edit product {{ item.id }}</a>
+                <p>
+                    name: {{ item.name }} description:
+                    {{ item.description }} route: {{ item.editroute }}
+                </p>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -50,12 +54,10 @@ export default {
 
     data: function () {
         return {
-            categories: [],         //all possible categories
-            originsites: [],        //all possible originsites
-            category: "unknown",    //data from category selection field
-            origin: "unknown",      //data from origin site selection field
-            product_id: 0,          //data from product id selection field
-            subset: []              //all products that match the search criteria
+            categories: [], //all possible categories
+            originsites: [], //all possible originsites
+            category: "unknown", //data from category selection field
+            origin: "unknown", //data from origin site selection field
         };
     },
 
@@ -107,35 +109,37 @@ export default {
         },
 
         //display a list of the found subset of products
-
+        getSelection() {
+            let selection = this.$root.$data;
+            //add an url string for easy rerouting
+            let subset = selection.subset;
+            subset.forEach((element) => {
+                element.edit_url = `/admin/product/edit/${element.id}`;
+            });
+            return selection.subset;
+        },
     },
 
     methods: {
-        findProducts: function(){
-
-            let responsedata = [];
-             
-            //axios call to /admin/product/subset
+        //send a query for products that match the criteria
+        sendQuery: function () {
             axios({
                 method: "post",
                 url: "/admin/product/subset",
-                data:{
-                    category: this.category,
+                data: {
                     origin: this.origin,
-                    product_id: this.product_id
-                }
+                    category: this.category,
+                },
             })
-            .then(response => {
-                
-                this.subset = response.data; //why does this not work?
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                    alert(`error message says: ${error}`);
-            });
-            
-
-        }
+                .then((response) => {
+                    //root reference works fine from here, in contrast to 'this'
+                    this.$root.$data.subset = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        
     },
 };
 </script>
