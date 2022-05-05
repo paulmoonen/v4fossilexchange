@@ -11332,8 +11332,7 @@ nav p {
 }
 
 .productcard {
-  min-width: 150px;
-  max-width: 200px;
+  width: 200px;
 }
 
 .adminmenu {

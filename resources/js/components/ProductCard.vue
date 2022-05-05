@@ -1,5 +1,5 @@
 <template>
-    <div class="col-4">
+    
         <form class="productcard" @submit.prevent="addToBasket">
             <slot>
                 <!--  csrf token from blade-->
@@ -23,7 +23,7 @@
                 &#128722; add to cart
             </button>
         </form>
-    </div>
+    
 </template>
 
 <script>

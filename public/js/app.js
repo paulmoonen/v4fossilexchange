@@ -28591,49 +28591,47 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-4" }, [
-    _c(
-      "form",
-      {
-        staticClass: "productcard",
-        on: {
-          submit: function ($event) {
-            $event.preventDefault()
-            return _vm.addToBasket.apply(null, arguments)
-          },
+  return _c(
+    "form",
+    {
+      staticClass: "productcard",
+      on: {
+        submit: function ($event) {
+          $event.preventDefault()
+          return _vm.addToBasket.apply(null, arguments)
         },
       },
-      [
-        _vm._t("default"),
-        _vm._v(" "),
-        _c("p", [_c("b", [_vm._v(_vm._s(this.description))])]),
-        _vm._v(" "),
-        _c("p", [_vm._v("Price: " + _vm._s(this.price))]),
-        _vm._v(" "),
-        _c("p", [_vm._v("Stock: " + _vm._s(this.stockcounter))]),
-        _vm._v(" "),
-        _vm._l(this.getImgPaths, function (image, index) {
-          return _c("img", {
-            key: index,
-            staticClass: "img-fluid",
-            attrs: { src: image, alt: "image" },
-          })
-        }),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("Found at: "),
-          _c("b", [_vm._v(_vm._s(this.site_name))]),
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { attrs: { type: "submit", disabled: !this.stockcounter } },
-          [_vm._v("\n            🛒 add to cart\n        ")]
-        ),
-      ],
-      2
-    ),
-  ])
+    },
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _c("p", [_c("b", [_vm._v(_vm._s(this.description))])]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Price: " + _vm._s(this.price))]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Stock: " + _vm._s(this.stockcounter))]),
+      _vm._v(" "),
+      _vm._l(this.getImgPaths, function (image, index) {
+        return _c("img", {
+          key: index,
+          staticClass: "img-fluid",
+          attrs: { src: image, alt: "image" },
+        })
+      }),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("Found at: "),
+        _c("b", [_vm._v(_vm._s(this.site_name))]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        { attrs: { type: "submit", disabled: !this.stockcounter } },
+        [_vm._v("\n        🛒 add to cart\n    ")]
+      ),
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -28770,9 +28768,7 @@ var render = function () {
                 _vm._s(item.name) +
                 " description:\n                " +
                 _vm._s(item.description) +
-                " route: " +
-                _vm._s(item.editroute) +
-                "\n            "
+                " \n            "
             ),
           ]),
         ])
