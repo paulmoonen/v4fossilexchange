@@ -39,7 +39,7 @@
                 <a :href="item.edit_url">Edit product {{ item.id }}</a>
                 <p>
                     name: {{ item.name }} description:
-                    {{ item.description }} route: {{ item.editroute }}
+                    {{ item.description }} 
                 </p>
             </li>
         </ul>

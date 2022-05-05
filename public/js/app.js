@@ -28768,9 +28768,7 @@ var render = function () {
                 _vm._s(item.name) +
                 " description:\n                " +
                 _vm._s(item.description) +
-                " route: " +
-                _vm._s(item.editroute) +
-                "\n            "
+                " \n            "
             ),
           ]),
         ])
