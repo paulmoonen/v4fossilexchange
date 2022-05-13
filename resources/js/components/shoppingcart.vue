@@ -18,6 +18,18 @@
         <input type="button" value="save changes"           @click="saveChanges()">
         <input type="button" value="buy"                    @click="checkout()">
 
+        <!-- a local embedded form element to post without axios and thus enable a redirect-->
+        <form action="" method="post">
+
+            <span v-for="(cartitem, key) in this.cartitems" v-bind:key="key" hidden>
+                                        
+                <input type="number" :name=key :value=cartitem[0]>
+                                  
+            </span> 
+            
+            <button type="submit">buy-button wrapped in in form</button>
+        </form>
+        
         <pre>
             sum:        {{this.sum}}
 

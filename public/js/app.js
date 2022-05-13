@@ -21808,6 +21808,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -45454,6 +45466,26 @@ var render = function () {
           },
         },
       }),
+      _vm._v(" "),
+      _c(
+        "form",
+        { attrs: { action: "", method: "post" } },
+        [
+          _vm._l(this.cartitems, function (cartitem, key) {
+            return _c("span", { key: key, attrs: { hidden: "" } }, [
+              _c("input", {
+                attrs: { type: "number", name: key },
+                domProps: { value: cartitem[0] },
+              }),
+            ])
+          }),
+          _vm._v(" "),
+          _c("button", { attrs: { type: "submit" } }, [
+            _vm._v("buy-button wrapped in in form"),
+          ]),
+        ],
+        2
+      ),
       _vm._v(" "),
       _c("pre", [
         _vm._v("        sum:        " + _vm._s(this.sum) + "\n\n        "),
