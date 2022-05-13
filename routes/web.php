@@ -55,7 +55,7 @@ Route::post('/cart/store',      'ShoppingCartController@store',             'car
 Route::get('/cart/contentlist', 'ShoppingCartController@listCartContent',   'cart.contentlist');
 Route::get('/cart/sum',         'ShoppingCartController@getSum',            'cart.sum');
 
-Route::get('/cart',             'OrderController@create',           'order.new');   //view cart an address details, checkout link
+Route::get('/cart',             'OrderController@create',                   'order.new');   //view cart an address details, checkout link
 
 /**
  * fallback for not available or not existing routes

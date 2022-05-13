@@ -21787,6 +21787,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -21794,6 +21815,10 @@ __webpack_require__.r(__webpack_exports__);
   props: {},
   data: function data() {
     return {
+      /*
+      data in cartitems[]:
+      product_id : [ count, price, stock, name, description ]
+      */
       cartitems: [],
       sum: 0.0,
       name: "Bob",
@@ -21805,33 +21830,75 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    //get cart content
-    axios__WEBPACK_IMPORTED_MODULE_1___default()({
-      method: "get",
-      url: "/cart/contentlist"
-    }).then(function (response) {
-      _this.cartitems = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    }); //get cart sum
-
-    axios__WEBPACK_IMPORTED_MODULE_1___default()({
-      method: "get",
-      url: "/cart/sum"
-    }).then(function (response) {
-      _this.sum = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    }); //get address data
+    //fill form with data
+    this.freshData();
   },
   methods: {
-    emptyCart: function emptyCart() {//calls route   /cart/clear
+    emptyCart: function emptyCart() {
+      //calls route   /cart/clear
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "post",
+        url: "/cart/clear"
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      this.freshData();
     },
-    updateCart: function updateCart() {//calls route   /cart/store
+    //save customer updated version of cart on the server
+    saveChanges: function saveChanges() {
+      //make a key-value list of product_id's and their counts
+      var id_list = Object.keys(this.cartitems);
+      var sentdata = {}; //empty key-value list
+
+      for (var i = 0; i < id_list.length; i++) {
+        sentdata[id_list[i]] = this.cartitems[id_list[i]][0]; //key: product_id = value: count of this item in cartitems array
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "post",
+        url: "/cart/store",
+        data: {
+          shoppingcart: sentdata
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      this.freshData();
     },
-    checkout: function checkout() {//call route    /order/store
+    checkout: function checkout() {
+      //call route    /order/store
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "post",
+        url: "/order/store",
+        data: {
+          shoppinglist: this.cartitems
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //called on creation of component, and after plus or minus buttons pressed
+    freshData: function freshData() {
+      var _this = this;
+
+      //get cart content
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "get",
+        url: "/cart/contentlist"
+      }).then(function (response) {
+        _this.cartitems = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      }); //get cart sum
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        method: "get",
+        url: "/cart/sum"
+      }).then(function (response) {
+        _this.sum = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      }); //get address data
     }
   }
 });
@@ -26967,7 +27034,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ndiv[data-v-6ba1b75a] {\n    background-color: darkkhaki;\n}\nh2[data-v-6ba1b75a] {\n    color: green;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ndiv[data-v-6ba1b75a] {\n    background-color: darkkhaki;\n}\nh2[data-v-6ba1b75a] {\n    color: green;\n}\nspan[data-v-6ba1b75a]{\n    display: flex;\n    flex-direction: row;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -45320,9 +45387,82 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("h2", [_vm._v("Shopping cart Vue Component")]),
+      _c("h2", [_vm._v("Shopping cart")]),
       _vm._v(" "),
-      _c("p", [_vm._v("name: " + _vm._s(this.name))]),
+      _vm._l(this.cartitems, function (cartitem, key) {
+        return _c("span", { key: key }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: cartitem[0],
+                expression: "cartitem[0]",
+              },
+            ],
+            attrs: { type: "number", min: "0", max: cartitem[2] },
+            domProps: { value: cartitem[0] },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(cartitem, 0, $event.target.value)
+              },
+            },
+          }),
+          _vm._v(" "),
+          _c("p", [
+            _c("b", [_vm._v("price:")]),
+            _vm._v("          " + _vm._s(cartitem[1]) + "\n            "),
+            _c("b", [_vm._v("name:")]),
+            _vm._v("           " + _vm._s(cartitem[3]) + "\n            "),
+            _c("b", [_vm._v("description:")]),
+            _vm._v("    " + _vm._s(cartitem[4]) + "\n        "),
+          ]),
+        ])
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "button", value: "empty shopping cart" },
+        on: {
+          click: function ($event) {
+            return _vm.emptyCart()
+          },
+        },
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "button", value: "save changes" },
+        on: {
+          click: function ($event) {
+            return _vm.saveChanges()
+          },
+        },
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "button", value: "buy" },
+        on: {
+          click: function ($event) {
+            return _vm.checkout()
+          },
+        },
+      }),
+      _vm._v(" "),
+      _c("pre", [
+        _vm._v("        sum:        " + _vm._s(this.sum) + "\n\n        "),
+        _c("b", [_vm._v("shipment data")]),
+        _vm._v(
+          "\n        name:       " +
+            _vm._s(this.name) +
+            "\n        street:     " +
+            _vm._s(this.street) +
+            "\n        country:    " +
+            _vm._s(this.country) +
+            "\n    "
+        ),
+      ]),
       _vm._v(" "),
       _vm._t("default"),
     ],

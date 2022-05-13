@@ -50,13 +50,14 @@ class ShoppingCartController extends Controller
     public function store(Request $request)
     {
         //read $request data
-        $itemlist = $request->all();
-        
+        $itemlist = $request->input('shoppingcart');
+                                        
         //erase previous cart data
         session()->forget('sum');
         session()->forget('shoppingcart');  
         $sum = 0;
-        $shoppingcart = [];   
+        $shoppingcart = [];
+        
         /*
         data in shopping cart:
         product_id : [ count, price, stock, name, description ]
@@ -187,6 +188,10 @@ class ShoppingCartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function listCartContent(){
+        /*
+        data in shopping cart:
+        product_id : [ count, price, stock, name, description ]
+        */
         return session()->get('shoppingcart');
     }
 
