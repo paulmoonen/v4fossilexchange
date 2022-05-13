@@ -8,13 +8,13 @@ use App\Models\Product;
 class ShoppingCartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show a list of shopping cart contents.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -179,5 +179,23 @@ class ShoppingCartController extends Controller
         session()->forget('sum');
         session()->forget('shoppingcart');
         return redirect('/'); //home
+    }
+
+    /**
+     * return a list of the contents of shopping cart
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function listCartContent(){
+        return session()->get('shoppingcart');
+    }
+
+    /**
+     * return the sum of shopping cart contents
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getSum(){
+        return session()->get('sum');        
     }
 }

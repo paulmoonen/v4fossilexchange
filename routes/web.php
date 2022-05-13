@@ -48,11 +48,14 @@ Route::middleware('auth')->group(function(){
 Route::get('/pictures/{id}', 'PictureController@getPictures', 'pictures.list');
 
 //shopping cart
-Route::post('/cart/add/{id}',   'ShoppingCartController@update',    'cart.add');    //adds 1 item to cart
-Route::get('/cart/edit',        'ShoppingCartController@create',    'cart.edit');   //returns a form with prefilled, editable data 
-Route::post('/cart/clear',      'ShoppingCartController@emptycart', 'cart.empty');
-Route::post('/cart/store',      'ShoppingCartController@store',     'cart.store');  //receives customer-updated version of cart data 
-Route::get('/cart',             'OrderController@create', 'order.new');             //view cart an address details, checkout link
+Route::post('/cart/add/{id}',   'ShoppingCartController@update',            'cart.add');    //adds 1 item to cart
+Route::get('/cart/edit',        'ShoppingCartController@create',            'cart.edit');   //returns a form with prefilled, editable data 
+Route::post('/cart/clear',      'ShoppingCartController@emptycart',         'cart.empty');
+Route::post('/cart/store',      'ShoppingCartController@store',             'cart.store');  //receives customer-updated version of cart data 
+Route::get('/cart/contentlist', 'ShoppingCartController@listCartContent',   'cart.contentlist');
+Route::get('/cart/sum',         'ShoppingCartController@getSum',            'cart.sum');
+
+Route::get('/cart',             'OrderController@create',           'order.new');   //view cart an address details, checkout link
 
 /**
  * fallback for not available or not existing routes

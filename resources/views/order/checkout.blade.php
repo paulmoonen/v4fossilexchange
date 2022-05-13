@@ -49,4 +49,10 @@
     <div class="col-2"></div>
 
 </div>
+
+<div class="row">
+    <!-- experimental shoppingcart vue component -->
+    <shoppingcart>@csrf</shoppingcart>
+
+</div>
 @endsection
