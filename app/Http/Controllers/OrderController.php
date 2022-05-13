@@ -134,7 +134,6 @@ class OrderController extends Controller
             ->where('orders.id', $id )
             ->get();
 
-            //ddd($invoice);
         return view('/order/order',[
             'order'         => $order,
             'invoice'       => $invoice[0],

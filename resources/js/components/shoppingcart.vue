@@ -106,6 +106,11 @@ export default {
                 data:{
                     shoppinglist: this.cartitems
                 }
+            }).then(response =>{
+                if(response.status == 200){
+                    //all clear
+                    window.location="/";
+                }
             }).catch(function(error){
                 console.log(error);
             });
