@@ -29,43 +29,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-
-        $sum = session()->get('sum');
-        if(!$sum){ 
-            $sum = 0.00; 
-        }
-        $cartitems = session()->get('shoppingcart');
-        if(!$cartitems){ 
-            $cartitems = [];  //avoid display errors
-        }
-        
-        if(Auth::guest()){ // not logged in, no address data
-            $name = "You are currently not logged in.";
-            $street = "To place an order you need to log in as existing customer,";
-            $housenumber = "or register yourself as a new customer.";
-            $postal_code = "";
-            $city = "";
-            $country = "";
-        }
-        if(Auth::check()){ //logged in
-            $user = Auth::user();
-            $name = $user->name;
-            $street = $user->street;
-            $housenumber = $user->housenumber;
-            $postal_code = $user->postal_code;
-            $city = $user->city;
-            $country = $user->country;             
-        }
-        return view('/order/checkout', [
-            'sum'               => $sum,
-            'cartitems'         => $cartitems,
-            'name'              => $name,
-            'street'            => $street,
-            'housenumber'       => $housenumber,
-            'postal_code'       => $postal_code,
-            'city'              => $city,
-            'country'           => $country
-        ]);
+        return view('/order/cart');
     }
 
     /**
