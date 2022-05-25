@@ -158,6 +158,7 @@ export default {
 <style scoped>
 div {
     background-color: darkkhaki;
+    border-radius: 0.3rem;
 }
 
 h2 {
